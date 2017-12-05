@@ -293,7 +293,7 @@ angular.module('AppController', [])
 						ProductService.getRatesById(str).success(
 								function(response) {
 									if (response.status == 1) {
-										$scope.rates = response.data;
+										$scope.productInfo.proEarningRate = response.data;
 										var options = {
 											backdrop : "static"
 										};

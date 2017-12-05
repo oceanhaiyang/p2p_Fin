@@ -1,0 +1,237 @@
+<div id="mainarea"> 
+    <div class="loc" > 产品管理 &gt; 产品列表</div>
+    <!--loc end-->
+    
+    <div class="container"> 
+    	<div class="area_block">
+    		<div class="area_thead">
+                <button type="button" class="button"  ui-sref="home.productAdd">新增产品</button>
+            </div>
+    	</div>
+        <!--area_block-->
+        <div class="area_block">
+            <div class="area_title"> <span class="ico ico-edit">&nbsp;</span>
+                <h3>产品列表信息</h3>
+            </div>
+            <div class="area_content area_table">
+                <table width="100%" class="table-data table-row tc">
+                    <tr>
+                        <th>序号</th>
+                        <th>产品编号</th>
+                        <th>产品名称</th>
+                        <th>最小期限</th>
+                        <th>最大期限</th>
+                        <th>年化利率</th>
+                        <th>回款方式</th>
+                        <th>转让封闭期</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    <tr ng-repeat="x in info">
+                        <td>{{$index+1}}</td>
+                        <td>{{x.proNum}}</td>
+                        <td>{{x.productName}}</td>
+                        <td>{{x.lowerTimeLimit}}</td>
+                        <td>{{x.upperTimeLimit}}</td>
+                        <!--<td>{{x.rate}}</td>-->
+                        <td><a href="javascript://" ng-click="showRate(x.proId,x.productName);" class="c_blue">查看</a></td>
+                        <td>{{x.wayToReturnMoneyDesc}}</td>
+                        <td>{{x.closedPeriod}}</td>
+                        <!--<td>{{x.shukuan}}</td>-->
+                        <td>{{x.statusDesc}}</td>
+                        <td>
+                            <a href="javascript://" ng-click="viewProductById(x.proId);" class="c_blue">查看</a>
+                            <a href="javascript://" ui-sref="home.productEdit({proId:x.proId})" class="c_blue">编辑</a>
+                            <a href="javascript://" ng-show="isHide(x.proId)" ng-click="productDel(x.proId);" class="c_blue">删除</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!--area_block end--> 
+    </div>
+</div>
+<!-- Modal -->
+<div id="myModal_b" class="modal fade" role="dialog" ng-init="recordList=true" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" ng-if="recordList">
+        <div class="modal-content">
+            <div class="modal-header"> <button type="button" class="close" ng-click="hide()">×</button>
+                <h3 id="myModalLabel">修改记录</h3>
+            </div> 
+            <div class="modal-body">
+                <p>
+                    <span>产品编号:UX</span>
+                <table class="table-data table-row tc">
+                    <tr>
+                        <td>更新时间</td>
+                        <td>修改ID</td>
+                        <td>操作</td>
+                    </tr>
+                    <tr ng-repeat="record in modifyRecords">
+                        <td>{{record.modifyTime}}</td>
+                        <td>{{record.username}}</td>
+                        <td><a href="javascript://" class="c_blue" ng-click="viewDetailLog(record.logId)">查看</a></td>
+                    </tr>
+                </table>
+                </p>
+            </div> 
+            <div class="modal-footer">
+                <button class="btn" ng-click="hide()">关闭</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal-dialog" ng-if="!recordList">
+        <div class="modal-content">
+            <div class="modal-header"> 
+                <button class="close" ng-click="hide()"><span aria-hidden="true">&times;</span></button>
+                <h3 class="modal-title">产品详细信息</h3>
+            </div> 
+            <div class="modal-body">
+                <table class="table-data table-row tc">
+                    <tr>
+                        <td>产品编号</td>
+                        <td>{{view.proNum}}</td>
+                    </tr>
+                    <tr>
+                        <td>产品名称</td>
+                        <td>{{view.productName}}</td>
+                    </tr>
+                    <tr>
+                        <td>期限</td>
+                        <td>{{view.lowerTimeLimit}} -- {{view.upperTimeLimit}}</td>
+                    </tr
+                    ><tr>
+                        <td>回款方式</td>
+                        <td>{{view.wayToReturnMoneyDesc}}</td>
+                    </tr>
+                    <tr>
+                        <td>转让封闭期</td>
+                        <td>{{view.closedPeriod}}</td>
+                    </tr>
+                    <tr>
+                        <td>状态</td>
+                        <td>{{view.statusDesc}}</td>
+                    </tr>
+                    <tr>
+                        <td>产品上限</td>
+                        <td>{{view.proUpperInvest}}</td>
+                    </tr>
+                    <tr>
+                        <td>起投金额</td>
+                        <td>{{view.proLowerInvest}}</td>
+                    </tr>
+                    <tr>
+                        <td>金额规则</td>
+                        <td>{{view.investRule}}</td>
+                    </tr>
+                    <tr>
+                        <td>是否可转让</td>
+                        <td>{{view.isAllowTransferDesc}}</td>
+                    </tr>
+                </table>
+            </div> 
+            <div class="modal-footer">
+                <button class="btn btn-default" ng-click="hide()">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="myModal_save" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">利率列表</h3>
+            </div> 
+            <div class="modal-body">
+                <p>
+                    <span>产品名称:月存计划</span>
+                </p>
+                <p>
+                    <span>期限：1月至36月</span>
+                </p>
+                <p>
+                    <span>利率：按月设置</span>
+                </p>
+                <table class="table-data table-row tc">
+                    <tr>
+                        <td>月数</td>
+                        <td>年利率</td>
+                    </tr>
+                    <tr ng-repeat="rate in rates">
+                        <td>{{rate.month}}</td>
+                        <td>{{rate.incomeRate}}</td>
+                    </tr>
+                </table>
+                <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="myModal_multi" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">利率列表</h3>
+            </div> 
+            <div class="modal-body">
+                <p>
+                    <span>产品名称:月乘计划</span>
+                </p>
+                <p>
+                    <span>期限：1月至36月</span>
+                </p>
+                <p>
+                    <span>利率：按月设置</span>
+                </p>
+                <table class="table-data table-row tc">
+                    <tr>
+                        <td>月数</td>
+                        <td>年利率</td>
+                    </tr>
+                    <tr ng-repeat="rate in rates">
+                        <td>{{rate.month}}</td>
+                        <td>{{rate.incomeRate}}</td>
+                    </tr>
+                </table>
+                <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="myModal_get" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">利率列表</h3>
+            </div> 
+            <div class="modal-body">
+                <p>
+                    <span>产品名称:月取计划</span>
+                </p>
+                <p>
+                    <span>期限：12月至36月</span>
+                </p>
+                <p>
+                    <span>利率：按月设置</span>
+                </p>
+                <table class="table-data table-row tc">
+                    <tr>
+                        <td>月数</td>
+                        <td>年利率</td>
+                    </tr>
+                    <tr ng-repeat="rate in rates">
+                        <td>{{rate.month}}</td>
+                        <td>{{rate.incomeRate}}</td>
+                    </tr>
+                </table>
+                <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

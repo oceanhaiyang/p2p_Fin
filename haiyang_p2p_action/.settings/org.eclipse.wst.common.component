@@ -13,6 +13,9 @@
         <dependent-module archiveName="haiyang_p2p_service-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/haiyang_p2p_service/haiyang_p2p_service">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="haiyang_p2p_utils-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/haiyang_p2p_utils/haiyang_p2p_utils">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="java-output-path" value="/haiyang_p2p_action/target/classes"/>
         <property name="context-root" value="p2p"/>
     </wb-module>
