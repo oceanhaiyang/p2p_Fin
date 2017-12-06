@@ -5,3 +5,13 @@
 
 前端使用angular.js和bootstrap
 
+资源文件配置如下：
+#oracle
+jdbc.url = jdbc:oracle:thin:@localhost:1521:orcl
+jdbc.driver= oracle.jdbc.driver.OracleDriver
+jdbc.user = p2p_FIN
+jdbc.password = 123
+
+#redis
+redis.server=localhost
+redis.port=6379
