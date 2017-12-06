@@ -15,3 +15,6 @@ jdbc.password = 123
 #redis
 redis.server=localhost
 redis.port=6379
+
+首页展示如下：
+![Image text](https://github.com/oceanhaiyang/p2p_Fin/blob/master/haiyang_p2p_home/src/main/webapp/styles/images/home_index.png)
