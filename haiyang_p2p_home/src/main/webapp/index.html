@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html id="ng-app" ng-app="app">
+    <head> 
+        <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+        <title >P2P网贷_P2P投资</title> 
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
+        <meta name="keywords" content="P2P网贷_P2P投资" />
+        <meta name="description" content="P2P网贷_P2P投资" />
+        <link href="styles/css/jquery-ui.min.css" rel="stylesheet">
+        <link href="styles/css/bootstrap.min.css" rel="stylesheet">
+        <link href="styles/css/global.css" rel="stylesheet">
+        <!--[if lte IE 7 ]>
+        <script src="/scripts/libs/json2.js"></script>
+        <![endif]-->
+        <script src="scripts/libs/jquery.1.9.min.js"></script>
+        <script src="scripts/libs/bootstrap.min.js"></script>
+        <script src="scripts/libs/jquery-ui.js"></script>
+        <script src="scripts/vendors/angular.min.js"></script>
+        <script src="public/js/jquery.glide.js"></script>
+        <!-- angular and related -->
+        <script src="scripts/services/AppRouterService.js"></script>
+        <script src="scripts/controllers/AppController.js"></script>
+        <script src="scripts/services/AppCommonService.js"></script>
+        <script src="scripts/directives/AppDirective.js"></script>
+        <script src="scripts/main.js"></script>
+        <script src="scripts/libs/highchart.js"></script>
+    </head> 
+    <body>
+        <!--header--> 
+        <div id="header" ng-controller="NavCtrl"> 
+            <div class="topBar"> 
+                <div class="w"> 
+                    <div class="loginBar">
+                        您好，<span ng-if="loginName"><a href="javascript:;" ui-sref="space.home" ng-bind="loginName"></a>
+                        </span><span ng-if="!loginName">欢迎来到P2P平台！
+                        <a ui-sref="reg" class="c_red">免费注册</a></span>
+                        &nbsp;&nbsp;
+                        <a ui-sref="login"  ng-if="!loginName" >立即登录</a>
+                        <a href="javascript:void(0);"ng-if="loginName" ng-click="logout();">退出</a>
+                    </div> 
+                    <div class="topTel">
+                       <strong> P2P金融平台</strong>
+                    </div> 
+                </div> 
+            </div> 
+            <div class="headBar w"> 
+                <h1 class="logo"><a ui-sref="index"><img src="styles/images/logo.png" width="304" height="89" alt="" title="" /></a></h1> 
+                <ul class="navBar" id="nav_list" style="font-size: 18px; "> 
+                    <li><a ui-sref="index" ui-sref-active="active">首页</a></li> 
+                    <li><a ui-sref="moto" ui-sref-active="active">我要投资</a></li> 
+                    <li><a ui-sref="school" ui-sref-active="active">新手指引</a></li> 
+                    <li><a ui-sref="help" ui-sref-active="active">帮助中心</a></li> 
+                    <li><a ui-sref="space.home" ng-class='{active: $state.includes("space")}'>账户中心</a></li> 
+                    <li><a ui-sref="lending">我要借款</a></li> 
+                </ul> 
+            </div> 
+        </div> 
+        <!--header end--> 
+        <div ui-view>           
+
+        </div>        
+    </body>
+</html>

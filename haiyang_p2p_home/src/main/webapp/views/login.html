@@ -1,0 +1,62 @@
+<!--wraper-->
+<style>body{background-color:#f0eeef;}</style>
+<div id="wraper">
+    <div class="login_area">
+        <div class="login_img"> </div>
+        <div class="login_box">
+            <form name="form1"  ng-submit="login(username, password)" >
+                <h2>用户登录</h2>
+                <div class="form_box">
+                    <div class="error-tips" ng-bind="error"></div>
+                    <ul>
+                        <li>
+                            <label for="uName" class="user-label"></label>
+                            <input type="text" name="uName" id="uName" class="input-text uName"  ng-model="username" placeholder="请输入用户名/手机号">
+                        </li>
+                        <li>
+                            <label for="password" class="pwd-label"></label>
+                            <input type="password" name="password" id="password" class="input-text uPwd" ng-model="password" placeholder="密码">
+                        </li>
+                        <li>
+                            <label for="captcha" class="pwd-label"验&nbsp;证&nbsp;码></label>
+                            <input type="text" style="width:115px;" ng-model="captcha" name="captcha"  placeholder="请输入验证码" />&nbsp;&nbsp;&nbsp;
+                            <a href="javascript:void(0);" class="yzm"><img ng-src="{{img_src}}" ng-click="refresh()" alt=""></a>&nbsp;&nbsp;
+                        </li>
+                        <li class="checkLi">
+                            <label>
+                                <input name="checkbox" type="checkbox" id="checkbox" ng-model="ischecked"  ng-checked="ischecked"/>
+                                记住用户名</label>
+                            <a ui-sref="backpwd">忘记密码</a>&nbsp;&nbsp;<a ui-sref="reg" class="c_blue">免费注册</a> </li>
+                    </ul>
+                    <div class="form_btn">
+                        <input type="submit" name="button" id="button" value="立即登录" class="button">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div id="footer" ng-include="'views/footer.html'"> </div> 
+<script>
+    setTimeout(function(){
+        function isPlaceholder(){
+            var input = document.createElement('input');
+            return 'placeholder' in input;
+        }
+        if(!isPlaceholder()){
+            $("input[type=text]").each(function(){
+                if($(this).val()=="" && $(this).attr("placeholder")!=""){
+                    $(this).val($(this).attr("placeholder"));
+                    $(this).focus(function(){
+                        if($(this).val()==$(this).attr("placeholder")) $(this).val("");
+                    });
+                    $(this).blur(function(){
+                        if($(this).val()=="") $(this).val($(this).attr("placeholder"));
+                    });
+
+                }
+            });
+        }
+    },1);
+</script>
+

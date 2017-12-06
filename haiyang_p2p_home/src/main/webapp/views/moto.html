@@ -1,0 +1,423 @@
+<div class="mTou_banner"
+	style="background-image: url(styles/images/m-tou/02.png);"></div>
+<!--banner end-->
+<!--wraper-->
+<div id="wraper">
+	<div class="mTou_info">
+		<h2></h2>
+		<div class="mTou_intro clearfix menu-list" id="mTou_intro">
+			<dl class="m-plus">
+				<dt>理财产品I</dt>
+				<dd>
+					<p>整存零取，存本取息</p>
+					<p class="buy-button">
+						<a href="javascript:;" oindex="1" class="motoNum"
+							name="moto-buying"><span class="ico"></span>我要购买</a>
+					</p>
+				</dd>
+			</dl>
+			<dl class="m-mul">
+				<dt>理财产品II</dt>
+				<dd>
+					<p>整存整取，利上滚利</p>
+					<p class="buy-button">
+						<a href="javascript:;" class="motoNum" name="moto-buying"
+							oindex="2"><span class="ico"></span>我要购买</a>
+					</p>
+				</dd>
+			</dl>
+			<dl class="m-sub">
+				<dt>理财产品III</dt>
+				<dd>
+					<p>零存整取，积少成多</p>
+					<p class="buy-button">
+						<a href="javascript:;" class="motoNum" name="moto-buying"
+							oindex="3"><span class="ico"></span>我要购买</a>
+					</p>
+				</dd>
+			</dl>
+		</div>
+	</div>
+	<!--月取计划-->
+	<div class="mTou_item" ng-if="moto.activeTab==3">
+		<form name="monthOut">
+			<table width="100%" class="item_table">
+				<tr>
+					<th width="19%">投资金额</th>
+					<td width="81%"><input type="text" ng-model="moto.amount"
+						placeholder="金额需为100元的整数倍" maxlength="10" id="amount"
+						ng-keyup="checkAmount()" ng-blur="checkInt()"
+						style="width: 280px;"> <span>元</span><span
+						class="error-info exceed-tips">输入的格式有误，请输入100或100的倍数</span></td>
+				</tr>
+				<tr>
+					<th>请选择期限</th>
+					<td>
+						<div class="item-content">
+							<span class="month-labels" id="period_showing"
+								ng-bind="moto.period">个月</span>
+							<div ui-Slider="slider.options" min="12" max="36" step="1"
+								ng-model="moto.period"></div>
+							<ul class="slider-label">
+								<li class="labela-1">12个月</li>
+								<li class="labela-2">18个月</li>
+								<li class="labela-3">24个月</li>
+								<li class="labela-4">30个月</li>
+								<li class="labela-5">36个月</li>
+							</ul>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th>预计年化收益</th>
+					<td class="c_orange"><span class="item-number"
+						ng-bind="moto.yield"></span> ％</td>
+				</tr>
+				<tr>
+					<th>每月赢取利息</th>
+					<td class="c_orange"><span class="item-number"
+						ng-bind="moto.interest"></span>元</td>
+				</tr>
+				<tr>
+					<th>每月提取利息</th>
+					<td><input type="text" id="withdraw" ng-model="moto.withdraw"
+						ng-disabled="moto.ifDisable" ng-blur="checkNum()"
+						style="width: 280px;"> <span>元</span><span
+						ng-show="ifExceed" class="exceed-tips">每月提取利息不能超出每月赢取利息</span></td>
+				</tr>
+				<tr>
+					<th ng-click="buyPlan();">配置结果</th>
+					<td>您选择了<span class="c_orange">《月取计划》</span>,加入的本金为<span
+						class="c_orange" ng-bind="moto.amount"></span>元，投资期限为<span
+						class="c_orange" ng-bind="moto.period"></span>个月，预期年化收益率为<span
+						class="c_orange" ng-bind="moto.yield"></span>%，系统将每月返还利息<span
+						class="c_orange" ng-bind="moto.withdraw"></span>元至您的账户，请确认购买。
+					</td>
+				</tr>
+				<tr>
+					<th>&nbsp;</th>
+					<td><div class="item_table_foot">
+							<p>
+								<button ng-click="showModal()" ng-disabled="enable"
+									ng-class="{'true': 'button button-post button_false', 'false': 'button button-post'}[enable]"
+									class="button">确认购买</button>
+								&nbsp;&nbsp; <label> <input type="checkbox"
+									id="chk_status" checked="checked" /> 我同意<a
+									href="pdf/touzifuwutiaokuan.pdf" target="_blank" class="c_blue">《个人出借与咨询服务协议》</a></label>
+							</p>
+						</div></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	<!--月乘计划-->
+	<div class="mTou_item" ng-if="moto.activeTab==2">
+		<form name="monthPlus">
+			<table width="100%" class="item_table">
+				<tr>
+					<th width="19%">投资金额</th>
+					<td width="81%"><input type="text" placeholder="金额需为100元的整数倍"
+						ng-model="moto.amount" maxlength="10" id="amount"
+						ng-keyup="checkAmount()" ng-blur="checkInt()"
+						style="width: 280px;"> <span>元</span><span
+						class="error-info exceed-tips">输入的格式有误，请输入100或100的倍数</span></td>
+				</tr>
+				<tr>
+					<th>请选择期限</th>
+					<td><div class="item-content">
+							<span class="month-labels" id="period_showing"
+								ng-bind="moto.period">个月</span>
+							<div ui-slider="slider.options" min="6" max="36" step="1"
+								ng-model="moto.period"></div>
+							<!--<div class="slider-gauge"></div> 
+                            <div class="month-label"></div> -->
+							<ul class="slider-label">
+								<li class="label-1">6个月</li>
+								<li class="label-2">12个月</li>
+								<li class="label-3">18个月</li>
+								<li class="label-4">24个月</li>
+								<li class="label-5">30个月</li>
+								<li class="label-6">36个月</li>
+							</ul>
+						</div></td>
+				</tr>
+				<tr>
+					<th>预计年化收益</th>
+					<td class="c_orange"><span class="item-number"
+						ng-bind="moto.yield"></span> ％</td>
+				</tr>
+				<tr>
+					<th>预期收益</th>
+					<td class="c_orange"><span class="item-number"
+						ng-bind="moto.interest"></span>元</td>
+				</tr>
+				<tr>
+					<th>配置结果</th>
+					<td>您选择了<span class="c_orange">《投资-月乘计划》</span>,加入的本金为<span
+						class="c_orange">{{moto.amount}}</span>元，投资期限为<span
+						class="c_orange" ng-bind="moto.period"></span>个月，预期年化收益率为<span
+						class="c_orange" ng-bind="moto.yield"></span>%，请确认购买。
+					</td>
+				</tr>
+				<tr>
+					<th>&nbsp;</th>
+					<td><div class="item_table_foot">
+							<p>
+								<button ng-click="showModal()" ng-disabled="enable"
+									ng-class="{'true': 'button button-post button_false', 'false': 'button button-post'}[enable]"
+									class="button">确认购买</button>
+								&nbsp;&nbsp; <label> <input type="checkbox"
+									id="chk_status" checked="checked" /> 我同意<a
+									href="pdf/touzifuwutiaokuan.pdf" target="_blank" class="c_blue">《个人出借与咨询服务协议》</a></label>
+							</p>
+						</div></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	<!--月存计划-->
+	<div class="mTou_item" ng-if="moto.activeTab==1">
+		<form name="monthIn">
+			<table width="100%" class="item_table">
+				<tr>
+					<th width="19%">投资金额</th>
+					<td width="81%"><input type="text" ng-model="moto.amount"
+						placeholder="金额需为100元的整数倍" id="amount" maxlength="10"
+						ng-keyup="checkAmount()" ng-blur="checkInt()"
+						style="width: 280px;"> <span>元</span><span
+						class="error-info exceed-tips">输入的格式有误，请输入100或100的倍数</span></td>
+				</tr>
+				<tr>
+					<th>请选择期限</th>
+					<td><div class="item-content">
+							<span class="month-labels" id="period_showing"
+								ng-bind="moto.period">个月</span>
+							<div ui-slider="slider.options" min="6" max="36" step="1"
+								ng-model="moto.period"></div>
+							<!--<div class="slider-gauge"></div> 
+                            <div class="month-label"></div> -->
+							<ul class="slider-label">
+								<li class="label-1">6个月</li>
+								<li class="label-2">12个月</li>
+								<li class="label-3">18个月</li>
+								<li class="label-4">24个月</li>
+								<li class="label-5">30个月</li>
+								<li class="label-6">36个月</li>
+							</ul>
+						</div></td>
+				</tr>
+				<tr>
+					<th>预计年化收益</th>
+					<td class="c_orange"><span class="item-number"
+						ng-bind="moto.yield"></span> ％</td>
+				</tr>
+				<tr>
+					<th>预期收益</th>
+					<td class="c_orange"><span class="item-number"
+						ng-bind="moto.interest"></span>元</td>
+				</tr>
+				<tr>
+					<th>配置结果</th>
+					<td>您选择了<span class="c_orange">《投资-月存计划》</span>,加入的本金为<span
+						class="c_orange" ng-bind="moto.amount"></span>元，投资期限为<span
+						class="c_orange" ng-bind="moto.period"></span>个月，预期年化收益率为<span
+						class="c_orange" ng-bind="moto.yield"></span>%,请确认购买。
+					</td>
+				</tr>
+				<tr>
+					<th>&nbsp;</th>
+					<td><div class="item_table_foot">
+							<p>
+								<button ng-click="showModal()" ng-disabled="enable"
+									ng-class="{'true': 'button button-post button_false', 'false': 'button button-post'}[enable]"
+									class="button">确认购买</button>
+								&nbsp;&nbsp; <label> <input type="checkbox"
+									id="chk_status" checked="checked" /> 我同意<a
+									href="pdf/touzifuwutiaokuan.pdf" target="_blank" class="c_blue">《个人出借与咨询服务协议》</a></label>
+							</p>
+						</div></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	<!--mTou_help-->
+	<div class="mTou_help">
+		<div class="mTou_help_content">
+			<div class="mTou_tab_menu">
+				<ul>
+					<li class="cur"><a href="javascript:void(0);">产品介绍</a></li>
+					<li id="one5"><a ui-sref="help">常见问题</a></li>
+				</ul>
+			</div>
+			<!--预定记录-->
+			<div class="mTou_help_box">
+				<table width="100%" class="item_help_table" style="font-size: 14px;">
+					<tr class="trBg">
+						<th width="28%">名称</th>
+						<td width="72%">投资计划</td>
+					</tr>
+					<tr>
+						<th>投资模式介绍</th>
+						<td>自动复投、自动盈利、期限灵活、收益最大化。在用户认可的收益及期限的范围内，对符合要求的标的进行自动投标，且回款在相应期限内自动复投，期限结束后系统会平台进行自动债权转让和退出，到期返回本息。投资计划所对应的标的均100%适用于平台的风险准备金制度并由系统实现标的分散投资。出借所获利息收益可选择每月复投或提取，更好的满足用户灵活自由、多样化的投资需求。</td>
+					</tr>
+					<tr class="trBg">
+						<th>投标范围</th>
+						<td>实地认证</td>
+					</tr>
+					<tr>
+						<th>投投资预期年化收益率</th>
+						<td>1.理财产品I预期年化收益率（16%）<br>2.理财产品II预期年化收益率（4.80%起，根据期限不同而增加）<br>3.理财产品III
+							预期年化收益率（4.80%起，根据期限不同而增加）
+						</td>
+					</tr>
+					<tr class="trBg">
+						<th>投资期限</th>
+						<td>1.理财产品I期限（12期-36期）<br>2.理财产品II期限（1期-36期）<br>3.理财产品III期限（1期-36期）
+						</td>
+					</tr>
+					<tr>
+						<th>退出日期</th>
+						<td>随时退出</td>
+					</tr>
+					<tr class="trBg">
+						<th>加入条件</th>
+						<td>加入金额100元起，且为100元的整数倍递增。</td>
+					</tr>
+					<tr>
+						<th>加入上限</th>
+						<td>无上限</td>
+					</tr>
+					<tr class="trBg">
+						<th>到期退出方式</th>
+						<td>系统将通过债权转让自动完成退出，您所持债权出售完成的具体时间，视债权转让市场交易情况而定。</td>
+					</tr>
+					<tr>
+						<th>费用</th>
+						<td>加入费用（充值）：免费<br />管理费用（账户管理费）：免费<br />退出费用（提现）：免费/笔
+						</td>
+					</tr>
+					<tr class="trBg">
+						<th>保障方式</th>
+						<td>风险准备金</td>
+					</tr>
+				</table>
+			</div>
+			<!--预定记录 end-->
+		</div>
+	</div>
+	<!--mTou_help end-->
+</div>
+<!--如果用户没有登录，显示登录窗口  -->
+<div id="myModal_login" class="modal fade" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog" style="width: 450px;">
+		<div class="modal-content" style="top: 50px;">
+			<div class="modal-header">
+				<button aria-hidden="true" data-dismiss="modal" class="close"
+					type="button">×</button>
+				<h3 id="">您尚未登录</h3>
+			</div>
+			<div class="modal-body">
+				<div class="my-modal">
+					<div class="login_box">
+						<form name="form1" method="post"
+							ng-submit="login(username, password)">
+							<div class="form_box">
+								<div class="error-tips">{{error}}</div>
+								<ul>
+									<li><input type="text" name="uName" id="uName"
+										ng-model="username" class="input-text uName"
+										placeholder="请输入用户名/手机号"></li>
+									<li><input type="password" name="password" id="password"
+										ng-model="password" class="input-text uPwd" placeholder="密码"
+										maxlength="20"></li>
+									<li><input type="text" style="width: 95px;"
+										ng-model="captcha" name="captcha" placeholder="请输入验证码" />&nbsp;&nbsp;&nbsp;
+										<a href="javascript:void(0);" class="yzm"><img
+											ng-src="{{img_src}}" ng-click="refresh()" alt=""></a>&nbsp;&nbsp;
+										<a ng-click="refresh()" class="refresh"
+										href="javascript:void(0);">刷新</a></li>
+									<li class="checkLi"><label> <input name="checkbox"
+											type="checkbox" id="checkbox"> 记住用户名
+									</label> <a ui-sref="backpwd">忘记密码</a>&nbsp;&nbsp;<a ui-sref="reg"
+										class="c_blue">免费注册</a></li>
+								</ul>
+								<div class="form_btn">
+									<input type="submit" name="button" id="button" value="立即登录"
+										class="btn">
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- tanchu start -->
+<!-- 确认购买窗口 -->
+<div id="confirm_modal" class="modal fade" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content" style="top: 50px;">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">×</button>
+				<h3 id="">提示</h3>
+			</div>
+			<div class="modal-body">
+				<div class="my-modal">
+					<ul class="modal-buy">
+						<li>您选择了<span class="c_orange" ng-if="moto.activeTab==3">《投资月取计划》</span><span
+							class="c_orange" ng-if="moto.activeTab==2">《投资月乘计划》</span><span
+							class="c_orange" ng-if="moto.activeTab==1">《投资月存计划》</span></li>
+						<li>加入的本金为<span class="c_orange">{{moto.amount}}</span>元
+						</li>
+						<li>投资期限为<span class="c_orange" ng-bind="moto.period"></span>个月
+						</li>
+						<li>预计年化收益率为<span class="c_orange" ng-bind="moto.yield"></span>%
+						</li>
+						<li><span ng-if="moto.activeTab==3">每月赢取利息</span><span
+							ng-if="moto.activeTab==2||moto.activeTab==1">预期收益</span>为<span
+							class="c_orange" ng-bind="moto.interest"></span>元</li>
+						<li ng-if="moto.activeTab==3">每月提取利息为<span class="c_orange"
+							ng-bind="moto.withdraw"></span>元
+						</li>
+					</ul>
+					<div class="my-modal-footer">
+						<button type="button" class="btn" ng-click="buyPlan();"
+							ng-show="isResubmit">确认购买</button>
+						<button type="button" class="btn btn-gray" ng-show="!isResubmit">购买提交中...</button>
+					</div>
+					<p ng-show="error" ng-bind="error"></p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- tanchu end -->
+<!-- charge start -->
+<div id="toCharge_modal" class="modal fade" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content" style="top: 50px;">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">×</button>
+				<h3 id="">提示</h3>
+			</div>
+			<div class="modal-body">
+				<div class="my-modal">
+					余额不足,请先<a ui-sref="space.recharge" class="c_blue">充值</a>
+					<div class="my-modal-footer">
+						<a ui-sref="space.recharge" class="btn">确认</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--wraper end-->
+<!--footer-->
+<div id="footer" ng-include="'views/footer.html'"></div>
+<!--footer end-->

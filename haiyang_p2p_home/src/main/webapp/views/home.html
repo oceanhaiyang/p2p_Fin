@@ -1,0 +1,97 @@
+<style>
+    body{background-color: #fff;}
+</style>
+<link href="public/css/slide.css" rel="stylesheet">
+<!--banBar--> 
+<div class="banBar"> 
+     <!--焦点图-->
+	  <div class="slider">
+	      <ul class="slides">
+              <li style="background-image:url(sites/file/01.png);"></li>
+              <li style="background-image:url(sites/file/02.png);"></li>
+          </ul>
+	  </div>
+	<!--焦点图 end-->
+    <div class="regist_box w"> 
+        <!--registBar--> 
+        <div class="regBar tc"> 
+            <p class="reg_lv">欢迎来到P2P个人理财平台 <br /> <strong></strong></p>
+            <p class="reg_btn tc">
+                <a ui-sref="reg" ng-if="!isLogin">注册领红包</a>
+                <a ui-sref="space.home" ng-if="isLogin">我的账户</a>
+                <span ng-if="isLogin" style="color: #fd953f;display: block;font-size: 16px;height: 42px;line-height: 42px;">可用余额<span ng_bind="usable">0.00</span>元</span>
+            </p> 
+        </div> 
+        <!--registBar end--> 
+    </div> 
+</div> 
+<!--banBar end--> 
+<!--wraper--> 
+<div id="wraper"> 
+         <div class="main-section content-section clearfix info-con">
+            <div class="info-item">
+                <h2><i class="icon icon-1 mr10"></i>安全</h2>
+                <p>国家AAA信用平台</p>
+                <p>民生银行资金托管</p>
+            </div>
+            <div class="info-item">
+                <h2><i class="icon icon-2 mr10"></i>权威</h2>
+                <p>CCTV多次点赞</p>
+                <p>互联网百强企业</p>
+            </div>
+            <div class="info-item">
+                <h2><i class="icon icon-3 mr10"></i>省心</h2>
+                <p>本金保障计划</p>
+                <p>一站式财富管理平台</p>
+            </div>
+            <div class="info-item info-item-last">
+                <h2><i class="icon icon-4 mr10"></i>灵活</h2>
+                <p>100元起投</p>
+                <p>3个月可债权转让</p>
+            </div>
+    </div> 
+   
+        <div class="mTou_set"> 
+            <a href="javascript:;" ng-click="goMoto()">理财购买</a>
+        </div> 
+    </div> 
+    <!--投资 end--> 
+    <!--合作机构--> 
+    <div class="xh_media mb25"> 
+        
+    </div> 
+    <!--合作机构 end--> 
+</div> 
+<!--wraper end--> 
+<!--footer--> 
+ <script type="text/javascript">
+            $(document).ready(function(){
+                // 头部广告
+                $("#getMoney .close").click(function(){
+                    $(this).parent().parent().animate({height:"0"},600);
+                });
+            });
+            
+            
+            // 焦点图
+            var glide = $('.slider').glide({
+                //autoplay:true,是否自动播放
+                animationTime: 500, //动画过度效果，只有当浏览器支持CSS3的时候生效
+                arrows: true, //是否显示左右导航器
+                arrowsWrapperClass: "arrowsWrapper", //滑块箭头导航器外部DIV类名
+                arrowMainClass: "slider-arrow", //滑块箭头公共类名
+                arrowRightClass: "slider-arrow--right", //滑块右箭头类名
+                arrowLeftClass: "slider-arrow--left", //滑块左箭头类名
+                arrowRightText: "", //定义左右导航器文字或者符号也可以是类
+                arrowLeftText: "",
+                nav: true, //主导航器也就是本例中显示的小方块
+                navCenter: true, //主导航器位置是否居中
+                navClass: "slider-nav", //主导航器外部div类名
+                navItemClass: "slider-nav__item", //小方块的样式
+                navCurrentItemClass: "slider-nav__item--current" //被选中后的样式
+            });
+        </script>
+<div id="footer" ng-include="'views/footer.html'"> </div> 
+<!--footer end--> 
+<script src="scripts/libs/jquery.glide.js"></script>
+

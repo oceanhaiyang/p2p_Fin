@@ -19,4 +19,6 @@
 	<context:property-placeholder location="classpath:config/config.properties"/>
 
 	<import resource="applicationContext-dataSource.xml"></import>
+	
+	<import resource="applicationContext-cache.xml"/>
 </beans>

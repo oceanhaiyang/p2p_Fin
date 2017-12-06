@@ -9,6 +9,7 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ModelDriven;
@@ -36,6 +37,9 @@ public class ProductAction extends BaseAction implements ModelDriven<Product> {
 
 	@Autowired
 	private IProductService productService;
+	
+	@Autowired
+	private RedisTemplate redisTemp;
 	
 	/**
 	 * 产品利率的回显

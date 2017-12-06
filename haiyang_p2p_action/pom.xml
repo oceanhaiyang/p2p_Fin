@@ -32,5 +32,11 @@
 		    <artifactId>haiyang_p2p_utils</artifactId>
 		    <version>0.0.1-SNAPSHOT</version>
   	</dependency>
+  	
+  	<dependency>
+  		    <groupId>cn.haiyang.p2p</groupId>
+		    <artifactId>haiyang_p2p_cache</artifactId>
+		    <version>0.0.1-SNAPSHOT</version>
+  	</dependency>
   </dependencies>
 </project>

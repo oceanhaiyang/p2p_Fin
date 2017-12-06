@@ -1,0 +1,284 @@
+<style>
+body {
+	background-color: #f0eeef;
+}
+</style>
+
+<!--wraper-->
+<div id="wraper">
+	<div class="mainarea">
+		<div class="content clearfix">
+			<!--regist_main-->
+			<div ng-hide="one_step">
+				<div class="regist_main regist_base">
+					<h2 class="title">账户注册-基本信息</h2>
+					<form name="form1">
+						<table width="100%" class="form_table">
+							<tr>
+								<th width="21%" class="tr">用户名<font color="red" size="4">*</font></th>
+								<td width="79%">
+								<input type="text" class=""
+									ng-class="{'input-text': true,'error-text': username_error_msg}"
+									placeholder="请输入昵称,包含数字,字母,下划线,非纯数字" ng-model="username"
+									ng-blur="yzusername()" onkeyup="value=value.replace(/\s/g,'')"
+									maxlength="14">
+									<span
+									ng-class="{'ico-correct': username_is_pass}"></span></td>
+							</tr>
+							<tr>
+								<th></th>
+								<td><div class="error_tips" ng-bind="username_error_msg"></div></td>
+							</tr>
+							<tr>
+								<th class="tr">手机号码<font color="red" size="4">*</font></th>
+								<td>
+								<input type="text"
+									ng-class="{'input-text': true,'error-text':phone_error_msg}"
+									placeholder="请输入手机号码" ng-model="phone" ng-blur="yzphone()">
+									<span ng-class="{'ico-correct': phone_is_pass}"></span></td>
+							</tr>
+							<tr>
+								<th></th>
+								<td><div class="error_tips" ng-bind="phone_error_msg"></div></td>
+							</tr>
+							<tr>
+								<th class="tr">密码<font color="red" size="4">*</font></th>
+								<td><input type="password" class="input-text"
+									placeholder="密码为8-16位数字或字母组合" ng-model="password"
+									ng-blur="yzpassword()"></td>
+							</tr>
+							<tr>
+								<th></th>
+								<td><div class="error_tips">
+										<p class="pwd_tips_bar pwd_tips_bg{{strong}}"
+											ng-hide="pwd_error_msg"></p>
+										{{pwd_error_msg}}
+									</div></td>
+							</tr>
+							<tr>
+								<th class="tr">密码确认<font color="red" size="4">*</font></th>
+								<td><input type="password" class="input-text"
+									ng-model="confirm_password" ng-blur="yzconfirm_password()"
+									placeholder="请重复输入登录密码"></td>
+							</tr>
+							<tr>
+								<th></th>
+								<td><div class="error_tips" ng-bind="repwd_error_msg"></td>
+							</tr>
+							<tr>
+								<th class="tr">验证码<font color="red" size="4">*</font></th>
+								<td>
+								<input type="text" style="width: 115px;"
+									ng-model="captcha" ng-blur="authCaptcha()">&nbsp;&nbsp;&nbsp;
+									<a href="javascript:void(0);" class="yzm"><img
+										ng-src="{{img_src}}" ng-click="refresh()" alt="验证码"></a>&nbsp;&nbsp;
+									<a href="javascript:void(0);" class="reload"
+									ng-click="refresh()">刷新</a></td>
+							</tr>
+							<tr>
+								<th></th>
+								<td><div class="error_tips" ng-bind="code_error_msg"></div></td>
+							</tr>
+							
+							
+							<tr>
+								<th>&nbsp;</th>
+								<td class="f12"><input name="checkbox" type="checkbox"
+									ng-checked="isAgree" ng-model="isAgree"> 我同意《<a href=""
+									target="_blank" class="c_blue">服务协议</a>》</td>
+							</tr>
+							<tr>
+								<th></th>
+								<td><div class="error_tips" ng-show="!isAgree">如果不同意服务协议，将无法完成注册！</div></td>
+							</tr>
+							<tr>
+								<th>&nbsp;</th>
+								<td><input type="button" value="注册"
+									class="button button-post" ng-click="doReg()" /></td>
+							</tr>
+
+						</table>
+					</form>
+				</div>
+			</div>
+
+			<div ng-hide="two_step">
+				<div class="regist_main">
+					<h2 class="title">账户注册-验证手机号</h2>
+					<div class="regist_tips">
+						<p>请输入您收到的短信中的验证码,此服务免费</p>
+						<p>
+							您的手机号{{phone}}&nbsp;&nbsp;<span class="c_blue"
+								ng-click="nexttwo()" style="cursor: pointer;">更换号码</span>
+						</p>
+					</div>
+					<table width="100%" class="form_table">
+						<tr>
+							<th width="24%" class="tr">验证码&nbsp;&nbsp;<font color="red"
+								size="4">*</font></th>
+							<td width="76%"><input type="text" style="width: 115px;"
+								ng-model="phonecaptcha"> &nbsp; <input type="button"
+								value="{{ msg || '获取短信'}}" ng-disabled="reaccept" class="btn"
+								style="width: 117px;" ng-click="getauthcode()"> <span
+								ng-bind="phoneCodeMsg"></span></td>
+						</tr>
+						<tr>
+							<th></th>
+							<td><font color="red" ng-bind="regMsg"></font></td>
+						</tr>
+						<tr>
+							<th>&nbsp;</th>
+							<td><input type="button" name="button" id="button"
+								value="下一步" class="button button-post" ng-click="doReg()"></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+			<div ng-hide="three_step">
+				<div class="regist_main">
+					<h2 class="title">账户注册-更改手机号</h2>
+					<table width="100%" class="form_table">
+						<tr>
+							<th width="21%" class="tr">手机号码<font color="red" size="4">*</font></th>
+							<td width="79%"><input type="text"
+								ng-class="{'error-text':phone_error_msg}" style="width: 246px;"
+								ng-model="phone" ng-blur="yzphone()" /></td>
+						</tr>
+						<tr>
+							<th></th>
+							<td><div class="error_tips" ng-bind="phone_error_msg">{{}}</div></td>
+						</tr>
+						<tr>
+							<th width="24%" class="tr">验证码</th>
+							<td width="76%"><input type="text" style="width: 115px;"
+								ng-model="phonecaptcha"> &nbsp; <input type="button"
+								value="{{ msg || '获取短信'}}" ng-disabled="reaccept" class="btn"
+								style="width: 117px;" ng-click="getauthcode()"></td>
+						</tr>
+						<tr>
+							<th></th>
+							<td><font color="red" ng-bind="regMsg"></font></td>
+						</tr>
+						<tr>
+							<th>&nbsp;</th>
+							<td>
+							<input type="button" name="button" id="button"
+								value="下一步" class="button button-post" ng-click="doReg()"></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+			<div ng-hide="four_step">
+				<div class="regist_main">
+					<div class="regist_user_ok">
+						<p class="f18">
+							尊敬的<span ng-bind="username"></span>，您好
+						</p>
+						<p>
+							<span ng-bind="times"></span>秒后跳转到<a class="c_blue"
+								ui-sref="space.home">我的账户</a>&nbsp;&nbsp;<a class="c_blue"
+								ui-sref="index">回到首页</a>
+						</p>
+						<p>
+							<a ui-sref="space.home" class="button" style="width: 150px;">完成</a>
+						</p>
+					</div>
+					<div class="regist_user_grade">
+						<div class="regist_user_set">
+							<dl class="uMoble uSet">
+								<dt>手机</dt>
+								<dd>已验证</dd>
+							</dl>
+							<dl class="uReal" ng-class="{uSet:IDAuth}">
+								<dt>实名</dt>
+								<dd>{{(IDAuth && '已验证') || '未设置'}}</dd>
+							</dl>
+							<dl class="uPassword" ng-class="{uSet:payPwdAuth}">
+								<dt>密码</dt>
+								<dd>{{(payPwdAuth && '已验证') || '未设置'}}</dd>
+							</dl>
+							<dl class="uEmail" ng-class="{uSet:emailAuth}">
+								<dt>邮箱</dt>
+								<dd>{{(emailAuth && '已验证') || '未设置'}}</dd>
+							</dl>
+						</div>
+						<div class="user_grade_tips">
+							<div class="user_grade_bar">
+								<span style="width: {{levelPercent|| 25">&nbsp;</span>
+							</div>
+							<p>
+								安全等级： <em class="low" ng-show="(levelMsg == '弱')">弱</em> <em
+									class="well" ng-show="(levelMsg == '中')">中</em> <em
+									class="well" ng-show="(levelMsg == '较强')">较强</em> <em
+									class="high" ng-show="(levelMsg == '高')">高</em>
+							</p>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<!--regist_main end-->
+			<!--regist_side-->
+			<div class="regist_side">
+				<div class="regist_login" style="margin-top: 70px;">
+					已注册？现在就<a href="javascript:;" class="c_blue" ng-click="_login()">登录</a>
+				</div>
+				<div class="regist_img">
+					<img src="styles/images/regist/reg_img.jpg" width="220"
+						height="220" alt="">
+				</div>
+			</div>
+			<!--regist_side end-->
+		</div>
+	</div>
+
+</div>
+<!--wraper end-->
+<!--footer-->
+<div id="footer" ng-include="'views/footer.html'"></div>
+<script>
+	setTimeout(function() {
+		function isPlaceholder() {
+			var input = document.createElement('input');
+			return 'placeholder' in input;
+		}
+		if (!isPlaceholder()) {
+			$("input[type=text]").each(function() {
+				if ($(this).val() == "" && $(this).attr("placeholder") != "") {
+					$(this).val($(this).attr("placeholder"));
+					$(this).focus(function() {
+						if ($(this).val() == $(this).attr("placeholder"))
+							$(this).val("");
+					});
+					$(this).blur(function() {
+						if ($(this).val() == "")
+							$(this).val($(this).attr("placeholder"));
+					});
+
+				}
+			});
+		}
+	}, 1);
+</script>
+<script type='text/javascript'>
+	function awtracepost(u, c) {
+		var t, m = Math.round(Math.random() * 9999), n = (new Date()).getTime()
+				+ '_' + m, i = window[n] = new Image();
+		i.src = u;
+		i.onerror = function() {
+			window[n] = null;
+			if (c)
+				c && c()
+		};
+		i.onload = i.onreadystatechange = function(e) {
+			if (!this.readyState || this.readyState === 'loaded'
+					|| this.readyState === 'complete') {
+				if (c)
+					c && c();
+				i.onload = i.onreadystatechange = null
+			}
+		}
+	}
+</script>

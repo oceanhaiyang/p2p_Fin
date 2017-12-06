@@ -1,0 +1,98 @@
+.slider {
+	position: relative;
+	width: 100%;
+	height: 340px;
+	overflow: hidden;
+}
+	
+	.slides {
+		height: 100%;
+		
+		/* Simple clear fix */
+		overflow: hidden;
+		
+		/**	
+		 * Prevent blinking issue
+		 * Not tested. Experimental.
+		 */
+		-webkit-backface-visibility: hidden;
+		-webkit-transform-style: preserve-3d;
+
+		/**
+		 * Here is CSS transitions 
+		 * responsible for slider animation in modern broswers
+		 */
+		-webkit-transition: all 500ms cubic-bezier(0.165, 0.840, 0.440, 1.000); 
+		   -moz-transition: all 500ms cubic-bezier(0.165, 0.840, 0.440, 1.000); 
+		    -ms-transition: all 500ms cubic-bezier(0.165, 0.840, 0.440, 1.000); 
+		     -o-transition: all 500ms cubic-bezier(0.165, 0.840, 0.440, 1.000); 
+		        transition: all 500ms cubic-bezier(0.165, 0.840, 0.440, 1.000);
+	}
+	
+	.slides li {
+		height: 100%;
+		float: left;
+		clear: none;
+		font-size:2em;
+		position:relative;
+		background-repeat:no-repeat;
+		background-position:50% 0;
+	}
+	.slides li a{
+		width:100%;
+		height: 100%;
+		display:block;
+		text-decoration:none;
+	}
+	.slides li span{
+		position:absolute;
+		bottom:-2em;
+		left:1em;
+	}
+
+	.slider-arrow {
+		position: absolute;
+		display: block;
+		margin-bottom: -20px;			
+		width: 55px;
+		height: 66px;
+		line-height: 60px;
+		text-decoration: none;
+		text-align: center;
+		color: #fff;
+		font-size: 2em;
+		opacity:0.5;
+		-ms-filter:"alpha(opacity=50)";
+		/*background-color: #333;
+		background-color: rgba(50,50,50,.3);
+		border-radius: 50%;*/
+		
+	}
+	.slider-arrow:hover {
+		opacity:1;
+		-ms-filter:"alpha(opacity=100)";
+	}
+
+	.slider-arrow--right { bottom: 50%; right: 60px;background:url(../images/jiantou_right.png) no-repeat; }
+	
+	.slider-arrow--left { bottom: 50%; left: 60px; background:url(../images/jiantou_left.png) no-repeat;}
+
+	.slider-nav {
+		position: absolute;
+		bottom: 20px;
+	}
+
+	.slider-nav__item {
+		width: 12px;
+		height: 12px;
+		float: left;
+		clear: none;
+		display: block;
+		margin: 0 5px;
+		background: #fff;
+	}
+
+	.slider-nav__item:hover { background: #ccc; }
+	.slider-nav__item--current { background: #ccc; }
+
+
