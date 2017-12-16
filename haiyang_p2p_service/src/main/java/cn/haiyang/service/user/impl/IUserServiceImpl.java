@@ -18,4 +18,16 @@ public class IUserServiceImpl implements IUserService {
 		// TODO Auto-generated method stub
 		return iUserDao.findByUsername(username);
 	}
+
+	@Override
+	public UserModel findByPhone(String phone) {
+		// TODO Auto-generated method stub
+		return iUserDao.findByPhone(phone);
+	}
+
+	@Override
+	public boolean addUser(UserModel user) {
+		UserModel u = iUserDao.save(user);
+		return u != null;
+	}
 }
