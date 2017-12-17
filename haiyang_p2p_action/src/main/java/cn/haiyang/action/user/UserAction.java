@@ -23,6 +23,7 @@ import cn.haiyang.service.userAccount.IUserAccountService;
 import cn.haiyang.utils.ConfigurableConstants;
 import cn.haiyang.utils.FrontStatusConstants;
 import cn.haiyang.utils.ImageUtil;
+import cn.haiyang.utils.MD5Util;
 import cn.haiyang.utils.Response;
 import cn.haiyang.utils.TokenUtil;
 
@@ -203,6 +204,9 @@ public class UserAction extends BaseAction implements ModelDriven<UserModel>{
 	
 	@Action("signup")
 	public void regist(){
+		String pwdMd5 = MD5Util.md5(user.getUsername() + user.getPassword().toLowerCase());
+		user.setPassword(pwdMd5);
+		
 		boolean flag = iUserService.addUser(user);
 		//注册成功，开账户。
 		try {
