@@ -23,3 +23,6 @@ redis.port=6379
 
 首页展示如下：
 ![Image text](https://github.com/oceanhaiyang/p2p_Fin/blob/master/haiyang_p2p_home/src/main/webapp/styles/images/home_index.png)
+
+功能模块：
+注册成功后，将用户信息保存在redis的token中。
