@@ -1,0 +1,64 @@
+<div id="mainarea">
+	<!--tips_bar-->
+	<div class="tips_bar">
+		<p ng-if="phoneAuth == 0">
+			为了您的资金安全，请尽快进行手机认证认证&nbsp;&nbsp;<em><a
+				ui-sref="space.security({flag:'authphone'})" class="c_blue">手机认证</a></em>
+		</p>
+		<p ng-if="(phoneAuth == 1 && IDAuth == 0)">
+			为了您的资金安全，请尽快进行实名认证&nbsp;&nbsp;<em><a
+				ui-sref="space.security({flag:'authrealname'})" class="c_blue">实名认证</a></em>
+		</p>
+		<p ng-if="(phoneAuth == 1 && IDAuth ==1 && emailAuth == 0)">
+			请设置您的常用邮箱，以便及时收到投资账单 &nbsp;&nbsp;<em><a
+				ui-sref="space.security({flag:'authemail'})" class="c_blue">设置电子邮箱</a></em>
+		</p>
+	</div>
+	<!--tips_bar end-->
+	<div class="account_info clearfix">
+		<dl class="account_balance">
+			<dt>可用余额</dt>
+			<dd>
+				<p class="account_sum c_blue">
+					<small ng-bind='usable'></small><span>元</span>
+				</p>
+				<p>
+					<a ui-sref="space.recharge" class="payBtn">充值</a>&nbsp;&nbsp;<a
+						ui-sref="space.cashnew" class="kitBtn">提现</a>
+				</p>
+			</dd>
+		</dl>
+		<dl class="account_total">
+			<dt>资产总额</dt>
+			<dd>
+				<p class="account_sum c_blue">
+					<small ng-bind="totle"></small><span>元</span>
+				</p>
+			</dd>
+		</dl>
+		<dl class="account_earning">
+			<dt>累计收益</dt>
+			<dd>
+				<p class="account_sum c_blue">
+					<small ng-bind="grand"></small><span>元</span>
+				</p>
+			</dd>
+		</dl>
+	</div>
+
+	<div class="area_box mb25">
+		<ul class="account_moto_list">
+			<li ng-repeat="p in ps">
+				<h3>{{p.productName}}</h3>
+				<div class="moto_rate">
+					<p>
+						<strong>起投金额</strong><span class="num"><em>{{p.proLowerInvest}}</em>元</span>
+					</p>
+					<p>
+						<strong>交易期限</strong><span class="num"><em>{{p.lowerTimeLimit}}-{{p.upperTimeLimit}}</em>个月</span>
+					</p>
+				</div> <a class="btn" ui-sref="moto" ng-click="checkParam(p.proId-1)">投资</a>
+			</li>			
+		</ul>
+	</div>
+</div>

@@ -1,0 +1,153 @@
+<div id="mainarea">
+	<div class="loc">产品管理 &gt; 产品列表</div>
+	<!--loc end-->
+	<div class="container">
+		<!--area_block-->
+		<div class="area_block">
+			<div class="area_title">
+				<span class="ico ico-edit">&nbsp;</span>
+				<h3>修改产品信息</h3>
+			</div>
+			<div class="area_content area_table">
+				<table width="100%" class="table-edit">
+					<tr>
+						<td align="right"><label>&nbsp;&nbsp;&nbsp;产品编号： </label></td>
+						<td colspan="3">{{productInfo.proNum}}</td>
+					</tr>
+					<tr>
+						<td align="right"><label>产品名称： </label></td>
+						<td colspan="3"><input name="textfield" type="text"
+							id="textfield" style="width: 235px;"
+							ng-model="productInfo.productName"></td>
+					</tr>
+					<tr>
+						<td align="right">期限：</td>
+						<td colspan="3"><label> <input type="text"
+								name="textfield2" id="textfield2" style="width: 218px;"
+								ng-model="productInfo.lowerTimeLimit"> 月
+						</label> &nbsp;&nbsp;至&nbsp;&nbsp; <label> <input type="text"
+								name="textfield3" id="textfield3" style="width: 218px;"
+								ng-model="productInfo.upperTimeLimit"> 月
+						</label></td>
+					</tr>
+					<tr>
+						<td align="right">利率设置:</td>
+						<td><input type="button" name="135"
+							class="button button-affirm" value="按月设置" id="RadioGroup2_1"
+							ng-click="change(productInfo.proId);"
+							ng-model="productInfo.earningType"></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td align="right">回款方式：</td>
+						<td><select name="select" id="select" style="width: 228px;"
+							ng-model="productInfo.wayToReturnMoney">
+								<option value="109">一次性回款</option>
+								<option value="110">每月提取，到期退出</option>
+						</select></td>
+						<td align="right">转让封闭期：</td>
+						<td><input type="text" name="textfield6" id="textfield7"
+							style="width: 218px;" ng-model="productInfo.closedPeriod"></td>
+					</tr>
+					<tr>
+						<td align="right">状态：</td>
+						<td colspan="3"><label> <input type="radio"
+								name="RadioGroup3" id="RadioGroup3_0"
+								ng-model="productInfo.status" value="0" checked="checked">
+								正常
+						</label> &nbsp;&nbsp;&nbsp;&nbsp; <label> <input type="radio"
+								name="RadioGroup3" id="RadioGroup3_1"
+								ng-model="productInfo.status" value="1"> 暂停
+						</label></td>
+					</tr>
+					<tr>
+						<td align="right">产品上限：</td>
+						<td><label> <input type="text" name="textfield8"
+								id="textfield9" style="width: 218px;"
+								ng-model="productInfo.proUpperInvest"> 元
+						</label></td>
+						<td align="right">起投金额：</td>
+						<td><label> <input type="text" name="textfield9"
+								id="textfield10" style="width: 218px;"
+								ng-model="productInfo.proLowerInvest"> 元
+						</label></td>
+					</tr>
+					<tr>
+						<td align="right">数量规则：</td>
+						<td><label> <input type="text" name="textfield10"
+								id="textfield11" style="width: 218px;"
+								ng-model="productInfo.investRule"> 的整数倍
+						</label></td>
+						<td align="right">&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+				</table>
+			</div>
+			<div class="area_foot tc">
+				<button type="button" class="button button-cancel"
+					ng-click="cancelProduct()">&nbsp;取消&nbsp;</button>
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				<button type="button" class="button button-affirm"
+					ng-click="commitProduct(productInfo.proId)">&nbsp;提交&nbsp;</button>
+			</div>
+		</div>
+		<!--area_block end-->
+	</div>
+	<div ui-view></div>
+</div>
+<div id="myModal_b" class="modal fade" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">×</button>
+				<h3 id="myModalLabel">按月设置</h3>
+			</div>
+			<div class="modal-body">
+				<p>
+					<span>产品名称: {{productInfo.productName}}</span>
+				</p>
+				<p>
+					<span>期限：{{productInfo.lowerTimeLimit}}月至{{productInfo.upperTimeLimit}}月</span>
+				</p>
+				<p>
+					<span>利率：按月设置</span>
+				</p>
+				<table class="table">
+					<tr>
+						<td>月数</td>
+						<td>年利率</td>
+					</tr>
+					<tr ng-repeat="rate in productInfo.proEarningRate">
+						<td><input type="text" ng-model="rate.month" /></td>
+						<td><input type="text" ng-model="rate.incomeRate" /></td>
+					</tr>
+				</table>
+
+				<div id="myModal_c" class="modal fade"
+					style="top: 30%; width: 280px; left: 40%;" tabindex="-1"
+					role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal"
+									aria-hidden="true">×</button>
+								<h3 id="myModalLabel">产品修改</h3>
+							</div>
+							<div class="modal-body">
+								<p>
+									<span>请设置完整利率后再提交</span>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn" data-dismiss="modal" aria-hidden="true">设置完毕</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

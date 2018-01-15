@@ -1,11 +1,12 @@
 package cn.haiyang.action.user;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
+import cn.haiyang.action.admin.BaseAction;
+import cn.haiyang.cache.BaseCacheService;
+import cn.haiyang.domain.user.UserModel;
+import cn.haiyang.service.user.IUserService;
+import cn.haiyang.service.userAccount.IUserAccountService;
+import cn.haiyang.utils.*;
+import com.opensymphony.xwork2.ModelDriven;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
@@ -13,19 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import com.opensymphony.xwork2.ModelDriven;
-
-import cn.haiyang.action.admin.BaseAction;
-import cn.haiyang.cache.BaseCacheService;
-import cn.haiyang.domain.user.UserModel;
-import cn.haiyang.service.user.IUserService;
-import cn.haiyang.service.userAccount.IUserAccountService;
-import cn.haiyang.utils.ConfigurableConstants;
-import cn.haiyang.utils.FrontStatusConstants;
-import cn.haiyang.utils.ImageUtil;
-import cn.haiyang.utils.MD5Util;
-import cn.haiyang.utils.Response;
-import cn.haiyang.utils.TokenUtil;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 @SuppressWarnings("serial")
 @Controller
@@ -225,6 +217,53 @@ public class UserAction extends BaseAction implements ModelDriven<UserModel>{
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 1.获取数据
+	 * 2.验证数据
+	 * 3.service处理
+	 * 4.返回json到页面
+	 */
+	@Action("login")
+	public void login(){
+		String signCode = this.getRequest().getParameter("signCode");
+		String signUuid = this.getRequest().getParameter("signUuid");
+
+		String _signCode = baseCache.get(signUuid);
+		try {
+		if(!_signCode.equalsIgnoreCase(signCode)){
+			this.getResponse().getWriter().write(Response.build().setStatus(FrontStatusConstants.INPUT_ERROR_OF_VALIDATE_CARD).toJSON());
+				return;
+			}
+
+		//用户名或手机号登陆都可
+		String str = user.getUsername();
+		if(CommomUtil.isMobile(str)){
+			UserModel user =iUserService.findByPhone(str);
+			str = user.getUsername();
+		}
+
+		String pwd = MD5Util.md5(str+user.getPassword().toLowerCase());
+		UserModel u = iUserService.login(str,pwd);
+		if(u!=null){
+			//成功，将用户信息保存到redis中
+			String token = generateUserToken(u.getUsername());
+			Map<String,Object> data = new HashMap<String,Object>();
+			data.put("userName",u.getUsername());
+			data.put("id",u.getId());
+
+			this.getResponse().getWriter().write(Response.build().setStatus(FrontStatusConstants.SUCCESS).setData(data).setToken(token).toJSON());
+
+		}
+		else{
+			this.getResponse().getWriter()
+					.write(Response.build().setStatus(FrontStatusConstants.ERROR_OF_USERNAME_PASSWORD).toJSON());
+		}
+
+		}catch (IOException e) {
 			e.printStackTrace();
 		}
 	}

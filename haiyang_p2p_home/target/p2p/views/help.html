@@ -1,0 +1,76 @@
+<!--banner-->
+<div class="help_banner">
+  <h2 class="w">帮助中心</h2>
+</div>
+<!--banner end--> 
+<!--wraper-->
+<div id="wraper"> 
+  <!--热门问题-->
+  <div class="help_block">
+    <h3 class="help_title hotitle">热门问题</h3>
+    <div class="help_content clearfix">
+      <ul class="hotlist">
+        <li ng-repeat="hot in list"><a ui-sref="helper.{{hot.node_type}}({id:hot.nid})" title="{{hot.node_title}}" ng-bind="hot.node_title"></a></li>
+      </ul>
+    </div>
+  </div>
+  <!--热门问题 end--> 
+  <!--了解投资-->
+  <div class="help_block">
+    <h3 class="help_title">您想要了解投资哪种计划？</h3>
+    <div class="help_content help_moto clearfix">
+      <a class="m-plus" ui-sref="moto"><strong>月取计划:</strong>整存零取，存本取息</a>
+      <a class="m-mul" ui-sref="moto"><strong>月乘计划:</strong>整存整取，利上滚利息</a>
+      <a class="m-sub" ui-sref="moto"><strong>月存计划:</strong>零存整取，积少成多</a>
+    </div>
+  </div>
+  <!--了解投资 end--> 
+  <!--自助服务-->
+  <div class="help_block" style="display:none;">
+    <h3 class="help_title">常见自助服务</h3>
+    <div class="help_content clearfix">
+      <ul class="selflist">
+        <li><a href="#" target="_blank" class="s_ico1">找回登录密码</a></li>
+        <li><a href="#" target="_blank" class="s_ico2">找回支付密码</a></li>
+        <li><a href="#" target="_blank" class="s_ico3">修改邮箱</a></li>
+        <li><a href="#" target="_blank" class="s_ico4">修改手机</a></li>
+        <li><a href="#" target="_blank" class="s_ico5">修改登录密码</a></li>
+        <li><a href="#" target="_blank" class="s_ico6">修改支付密码</a></li>
+      </ul>
+    </div>
+  </div>
+  <!--自助服务 end--> 
+  <!--常见问题-->
+  <div class="help_block">
+    <h3 class="help_title">常见问题</h3>
+    <div class="help_content clearfix">
+      <ul class="issuelist">
+        <li><a href="#" class="i_ico1">安全保障</a></li>
+        <li><a href="#" class="i_ico2">注册/认证</a></li>
+        <li><a href="#" class="i_ico3">投资/赎回</a></li>
+        <li><a href="#" class="i_ico4">充值/提现</a></li>
+        <li><a href="#" class="i_ico5">账户密码管理</a></li>
+      </ul>
+    </div>
+  </div>
+  <!--常见问题 end--> 
+  <!--联系客服-->
+  <div class="help_block">
+    <h3 class="help_title">联系客服</h3>
+    <div class="help_content link_service clearfix">
+      <dl class="kf_line">
+        <dt></dt>
+        <dd></dd>
+      </dl>
+      <dl class="tel_400">
+        <dd></dd>
+      </dl>
+    </div>
+  </div>
+  <!--联系客服 end--> 
+</div>
+<!--wraper end-->
+<!--footer-->
+<div id="footer" ng-include="'views/footer.html'"></div>
+<!--footer end-->
+

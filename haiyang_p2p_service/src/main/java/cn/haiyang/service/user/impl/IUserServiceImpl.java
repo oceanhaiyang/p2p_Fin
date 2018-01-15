@@ -30,4 +30,9 @@ public class IUserServiceImpl implements IUserService {
 		UserModel u = iUserDao.save(user);
 		return u != null;
 	}
+
+	@Override
+	public UserModel login(String username,String password){
+		return  iUserDao.findByUsernameAndPassword(username,password);
+	}
 }

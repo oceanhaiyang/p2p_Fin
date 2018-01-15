@@ -1,0 +1,91 @@
+<style>body{background-color: #fff;}</style>
+<div id="wraper" class="clearfix" style="margin-top:30px;"> 
+    <!--sidebar-->
+    <div id="sidebar">
+        <div class="user_state">
+            <div class="user_photo">
+                <div class="image"><img width="52" height="52" alt="" src="styles/images/member/nophoto.jpg"></div>
+                <div class="name" ng-bind="username"></div>
+            </div>
+            <div class="state_tips">
+                <a class="{{(phoneAuth && 'iphone-state') || 'iphone'}}" ui-sref="space.security({flag:'authphone'})" title="手机认证" ></a>&nbsp;&nbsp;&nbsp;<a class="{{(IDAuth && 'iface-state') || 'iface'}}" ui-sref="space.security({flag:'authrealname'})" title="实名认证"></a>&nbsp;&nbsp;&nbsp;<a class="{{(payPwdAuth && 'ipassword-state') || 'ipassword'}}" ui-sref="space.security({flag:'authpaypwd'})"  title="支付密码认证"></a>&nbsp;&nbsp;&nbsp;<a class="{{(emailAuth && 'iemail-state') || 'iemail'}}" ui-sref="space.security({flag:'authemail'})"  title="邮箱认证"></a>
+            </div>
+            <div class="user_state_grade">
+                <div class="grade_bar"><span style="width:{{levelPercent}}%"></span></div>
+                <p>安全等级：<span ng-bind="levelMsg || '弱'"></span></p>
+            </div>
+        </div>
+        <!--user_state end--> 
+        <!--menuBox-->
+        <div class="menuBox">
+            <ul class="menu_list">
+                <li ng-class="{'cur':menu.menu == 'homeManage'}">
+                    <a class="home" href="javascript:void(0);" ui-sref="space.home" rel="title">账户主页</a>
+                </li>
+                <li ng-class="{'cur':menu.menu == 'zichanManage'}">
+                    <a rel="title" class="ico1" href="javascript:void(0);">资产管理</a>
+                    <ul class="subMenu" ng-class="{'show':menu.menu == 'zichanManage'}">
+                        <li><a ui-sref="space.statistics" ng-class="{'hover':menu.childMenu == 'stat'}" >资产统计</a></li>
+                        <li><a ui-sref="space.recharge" ng-class="{'hover':menu.childMenu == 'recharge'}" >充值</a></li>
+                        <li><a ui-sref="space.cashnew" ng-class="{'hover':menu.childMenu == 'cash'}" >提现</a></li>
+                    </ul>
+                </li>
+                <li ng-class="{'cur':menu.menu == 'investManage'}">
+                    <a rel="title" class="ico2" href="javascript:void(0);">投资管理</a>
+                    <ul class="subMenu" ng-class="{'show':menu.menu == 'investManage'}">
+                        <li><a ui-sref="space.record.dealAll" ng-class="{'hover':menu.childMenu == 'record'}" >交易记录</a></li>
+                        <li><a ui-sref="space.myinvest.buying" ng-class="{'hover':menu.childMenu == 'myinvest'}" >我的投资</a></li>
+                    </ul>
+                </li>
+                <li ng-class="{'cur':menu.menu == 'rewardManage'}">
+                    <a rel="title" class="ico3" href="javascript:void(0);">奖励管理</a>
+                    <ul class="subMenu" ng-class="{'show':menu.menu == 'rewardManage'}">
+                        <li><a ui-sref="space.award" ng-class="{'hover':menu.childMenu == 'reward'}">邀请奖励</a></li>
+                    </ul>
+                </li>
+                <li ng-class="{'cur':menu.menu == 'msgManage'}">
+                    <a rel="title" class="ico4" href="javascript:void(0);">消息管理</a>
+                    <ul class="subMenu" ng-class="{'show':menu.menu == 'msgManage'}">
+                        <li><a ui-sref="space.allmsg" ng-class="{'hover':menu.childMenu == 'instation'}">站内信息</a></li>
+                    </ul>
+                </li>
+                <li ng-class="{'cur':menu.menu == 'accoutManage'}">
+                    <a rel="title" class="ico5" href="javascript:void(0);">账户管理</a>
+                    <ul class="subMenu" ng-class="{'show':menu.menu == 'accoutManage'}">
+                        <li><a ui-sref="space.bankinfo" ng-class="{'hover':menu.childMenu == 'bankinfo'}" >银行卡信息</a></li>
+                        <li><a ui-sref="space.security" ng-class="{'hover':menu.childMenu == 'security'}">安全设置</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div ui-view="" ></div>
+</div>
+<div id="footer" ng-include="'views/footer.html'"> </div> 
+<script>
+    $(document).ready(function() {
+        var Accordion = function(el, multiple) {
+            this.el = el || {};
+            this.multiple = multiple || false;
+            var links = this.el.find('a[rel=title]');
+            links.on('click', {el: this.el, multiple: this.multiple}, this.dropdown)
+        }
+        Accordion.prototype.dropdown = function(e) {
+            var $el = e.data.el;
+            $this = $(this),
+            $next = $this.next();
+            $next.slideToggle();
+            $this.parent().toggleClass('cur');
+            if (!e.data.multiple) {
+                $el.find('.subMenu').not($next).slideUp().parent().removeClass('cur');
+                $el.find('ul.subMenu').removeClass('show');
+            };
+        }
+        var accordion = new Accordion($('.menu_list'), false);
+        $('.subMenu a').click(function(){
+            $(this).parents('ul').find('a').removeClass('hover');
+            $(this).addClass('hover');
+            
+        });
+    });
+</script>

@@ -1,0 +1,127 @@
+<div id="wraper" ng-controller="lendCtrls">
+    <div class="my_borrow">
+        <div class="borrow_form">
+            <h2>填写借款申请表</h2>
+            <form name="form1" method="post" action="" >
+                <table width="100%" class="form_table">
+                    <tr>
+                        <th width="18%" class="tr">借款金额<span style="color:red;font-size: 18px;">*</span></th>
+                        <td width="82%"><input name="textfield" type="text" id="textfield" ng-keyup="inverNum()" ng-blur="inverNumber()" class="input-text" ng-model="lendnum"></td>
+                    </tr>
+                    <tr>
+                        <th>&nbsp;</th>
+                        <td><div class="error_tips" ng-bind="lend_error_msg"> </div></td>
+                    </tr>
+                    <tr>
+                        <th class="tr">您所在省份<span style="color:red;font-size: 18px;">*</span></th>
+                        <td>
+                            <div class="option_box">
+                                <input name="textfield3" type="text" class="input-text" id="textfield3" value="请选择" readonly="readonly" >
+                                <div class="option_arrow"><a href="javascript:;" ng-click="selProvinces()"><span>v</span></a></div>
+                                <ul class="options">
+                                    <li ng-repeat="arguments in provinces" value="{{arguments.cityAreaNum}}"><a href='javascript:;' ng-bind="arguments.cityName"></a></li>
+                                </ul>
+                            </div>
+                            </div>
+                        </td>
+                    <tr>
+                        <th>&nbsp;</th>
+                        <td><div class="error_tips"></div></td>
+                    </tr>
+                    <tr>
+                        <th class="tr">您所在城市<span style="color:red;font-size: 18px;">*</span></th>
+                        <td><div class="option_box option_box_s"> 
+                                <input name="textfield4" type="text" class="input-text" id="textfield4" value="请选择"  readonly="readonly" >
+                                <div class="option_arrow"><a href="javascript:;" ng-click="selZone()"><span>v</span></a></div>
+                                <ul class="options">
+                                    <li ng-repeat="arguments in citys" value="{{arguments.cityAreaNum}}"><a href='javascript:;' ng-bind="arguments.cityName"></a></li>
+                                </ul>
+                            </div>
+                            <div class="option_box option_box_s">
+                                <input name="textfield4" type="text" class="input-text" id="textfieldA" value="请选择"  readonly="readonly" >
+                                <div class="option_arrow"><a href="javascript:;" ng-click="selArea()"><span>v</span></a></div>
+                                <ul class="options">
+                                    <li ng-repeat="arguments in zones" value="{{arguments.cityAreaNum}}"><a href='javascript:;' ng-bind="arguments.cityName"></a></li>
+                                </ul>
+                            </div>                        </td>
+                    </tr>
+                    <tr>
+                        <th>&nbsp;</th>
+                        <td><div class="error_tips"> </div></td>
+                    </tr>
+                    <tr>
+                        <th class="tr">姓名<span style="color:red;font-size: 18px;">*</span></th>
+                        <td><input name="textfield5" type="text" id="textfield5" ng-keyup="inverName()" ng-blur="yzrealname()" class="input-text" ng-model="realname"></td>
+                    </tr>
+                    <tr>
+                        <th>&nbsp;</th>
+                        <td><div class="error_tips" ng-bind="name_error_msg"> </div></td>
+                    </tr>
+                    <tr>
+                        <th class="tr">手机号<span style="color:red;font-size: 18px;">*</span></th>
+                        <td><input name="textfield7" type="text" id="textfield7" ng-blur="yzphone()" class="input-text" ng-model="phone"></td>
+                    </tr>
+                    <tr>
+                        <th>&nbsp;</th>
+                        <td><div class="error_tips" ng-bind="phone_error_msg"></div></td>
+                    </tr>
+                    <tr>
+                        <th class="tr">性别<span style="color:red;font-size: 18px;">*</span></th>
+                        <td><label>
+                                <input name="RadioGroup1" type="radio" id="RadioGroup1_0" value="1" checked>
+                                先生</label>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <label>
+                                <input type="radio" name="RadioGroup1" value="0" id="RadioGroup1_1">
+                                女士</label></td>
+                    </tr>
+                    <tr>
+                        <th>&nbsp;</th>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <td><div class="error_tips"> </div></td>
+                    </tr>
+                    <tr>
+                        <th class="tr">验证码<span style="color:red;font-size: 18px;">*</span></th>
+                        <td><input type="text" name="textfield6" id="textfield6" style="width:115px;" class="input-text" ng-model="verify" ng-keyup="inverMessage()" ng-true="true">
+                            &nbsp;
+                            <input type="button" name="button2" id="button2" value="短信获取" class="btn" ng-click="timeDown()" style="width:117px;">
+                            &nbsp;<span class="inver_tip">60秒</span></td>
+                    </tr>
+                    <tr>
+                        <th>&nbsp;</th>
+                        <td><!--<span class="c_red" ng-bind="submitMsg"></span>--></td>
+                    </tr>
+                    <tr>
+                        <th>&nbsp;</th>
+                        <td><input type="button" name="button" id="button" value="提交借款申请" class="button button-post button_false" ng-class="{'true': 'button button-post button_false', 'false': 'button button-post'}[enable]" ng-disabled="enable" ng-click="processForm()"></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--提示弹层-->
+<div class="modal fade" id="alertBox" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
+                <h4 class="modal-title" id="exampleModalLabel"></h4>
+            </div>
+            <div class="modal-body">
+                <div style="margin:50px 40px;text-align:center;font-size:18px" id="msg">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type='hidden' ng-model="currentStatus" />
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="refreshCurrent()">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="footer" ng-include="'views/footer.html'"> </div> 

@@ -8,4 +8,6 @@ public interface IUserService {
 	public UserModel findByPhone(String phone);
 
 	public boolean addUser(UserModel user);
+
+	public UserModel login(String username,String password);
 }

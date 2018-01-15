@@ -69,7 +69,7 @@ public class IProductServiceImpl implements IProductService{
 		 if(per!=null&& per.size()>0){
 			 ProductEarnRateDao.delByProductId((int)product.getProId());
 		 }
-		
+		//先删除之前的利率，再保存。
 		 ProductEarnRateDao.save(product.getProEarningRate());
 		 
 		 iProductDao.save(product);

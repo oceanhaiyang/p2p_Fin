@@ -1,0 +1,42 @@
+<style>
+body {
+	background: url(../styles/images/login/bodyBg.gif);
+}
+</style>
+<div class="loginFixed">
+	<!--header-->
+	<div class="login_header">
+		<h1 class="logo"></h1>
+	</div>
+	<!--header end-->
+	<!--login_wrap-->
+	<div class="login_wrap">
+		<div class="login_main clearfix">
+			<div class="loginBlock">
+				<h2>用户登录</h2>
+				<div class="loginCnt">
+					<div class="loginForm">
+
+						<div class="loginTips" ng-show="errorMsg">
+							<p>{{errorMsg}}</p>
+						</div>
+						<form name="form1" ng-submit="login(username, password)">
+							<ul class="formList">
+								<li><input type="text" class="input-text ico-uid"
+									placeholder="用户名" ng-model="username" style="width: 252px;"
+									ng-focus="hideMsg()">
+								<li><input type="password" class="input-text ico-pwd"
+									placeholder="密码" ng-model="password" style="width: 252px;"
+									ng-focus="hideMsg()"></li>
+
+								<li>
+									<button type="submit" class="button-login">登录</button>
+								</li>
+							</ul>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

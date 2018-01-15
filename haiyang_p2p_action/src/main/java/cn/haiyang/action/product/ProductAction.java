@@ -2,9 +2,13 @@ package cn.haiyang.action.product;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,9 +52,22 @@ public class ProductAction extends BaseAction implements ModelDriven<Product> {
 	public void findRates(){
 		String proId = this.getRequest().getParameter("proId");
 		List<ProductEarningRate> pe = productService.findRatesById(Long.parseLong(proId));
+		String a = JSON.toJSONString(pe);
+		JSONArray b = JSON.parseArray(a);
+		JSONObject object = new JSONObject();
+		object.put("data",b);
+		object.put("status","1");
+
+
+
+
+
+		System.out.println(object);
+		//
 		
 		try {
-			this.getResponse().getWriter().write(Response.build().setStatus("1").setData(pe).toJSON());
+			//this.getResponse().getWriter().write(Response.build().setStatus("1").setData(pe).toJSON());
+			this.getResponse().getWriter().print(object);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -65,6 +82,7 @@ public class ProductAction extends BaseAction implements ModelDriven<Product> {
 	@Action("modifyProduct")
 	public void modifyProduct(){
 		String proEarningRates = this.getRequest().getParameter("proEarningRates");
+		//接收的利率为json,转为list才能保存。
 		Map map =new JsonMapper().fromJson(proEarningRates, Map.class);
 		List<ProductEarningRate> pList = new ArrayList<ProductEarningRate>();
 		for (Object key : map.keySet()) {
