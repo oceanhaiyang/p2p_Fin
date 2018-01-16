@@ -11,11 +11,16 @@ public class IUserAccountServiceImpl implements IUserAccountService {
 @Autowired
 private IUserAccountDao udao;
 
-@Override
-public void add(int id) {
-	UserAccountModel userAccount = new UserAccountModel();
-	userAccount.setUserId(id);
-	udao.save(userAccount);
-	
-}
+	@Override
+	public void add(int id) {
+		UserAccountModel userAccount = new UserAccountModel();
+		userAccount.setUserId(id);
+		udao.save(userAccount);
+
+	}
+
+	@Override
+	public UserAccountModel findByUserId(int userId) {
+		return udao.findByUserId(userId);
+	}
 }
