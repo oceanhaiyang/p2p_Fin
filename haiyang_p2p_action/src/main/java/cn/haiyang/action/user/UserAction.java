@@ -3,9 +3,12 @@ package cn.haiyang.action.user;
 import cn.haiyang.action.admin.BaseAction;
 import cn.haiyang.cache.BaseCacheService;
 import cn.haiyang.domain.user.UserModel;
+import cn.haiyang.domain.userAccount.UserAccountModel;
+import cn.haiyang.filter.GetHttpResponseHeader;
 import cn.haiyang.service.user.IUserService;
 import cn.haiyang.service.userAccount.IUserAccountService;
 import cn.haiyang.utils.*;
+import com.alibaba.fastjson.JSONObject;
 import com.opensymphony.xwork2.ModelDriven;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.convention.annotation.Action;
@@ -15,9 +18,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @SuppressWarnings("serial")
 @Controller
@@ -251,6 +252,8 @@ public class UserAction extends BaseAction implements ModelDriven<UserModel>{
 		if(u!=null){
 			//成功，将用户信息保存到redis中
 			String token = generateUserToken(u.getUsername());
+			/*Map<String,Object> hmap = baseCache.getHmap(token);
+			int userId = (int)hmap.get("id");*/
 			Map<String,Object> data = new HashMap<String,Object>();
 			data.put("userName",u.getUsername());
 			data.put("id",u.getId());
@@ -264,6 +267,75 @@ public class UserAction extends BaseAction implements ModelDriven<UserModel>{
 		}
 
 		}catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+//获取用户安全级别
+	@Action("userSecure")
+	public void userSecure(){
+		String token = GetHttpResponseHeader.getHeadersInfo(this.getRequest());
+		//String token = this.getRequest().getHeader("token");
+		try{
+			Map<String,Object> hmap = baseCache.getHmap(token);
+			int userId = (int)hmap.get("id");
+			UserModel u = iUserService.findById(userId);
+			List<JSONObject> list = new ArrayList<JSONObject>();
+			JSONObject object = new JSONObject();
+			object.put("phoneStatus",u.getPhoneStatus());
+			object.put("realNameStatus",u.getRealNameStatus());
+			object.put("payPwdStatus",u.getPayPwdStatus());
+			object.put("emailStatus",u.getEmailStatus());
+			list.add(object);
+
+			this.getResponse().getWriter().write(Response.build().setStatus("1").setData(list).toJSON());
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+	}
+	//账户中心
+	@Action("accountHomepage")
+	public void accountHomepage(){
+		//1.得到token
+		String token = GetHttpResponseHeader.getHeadersInfo(this.getRequest());
+		//2.根据token从redis中获取用户信息，
+		Map<String,Object> hamp =  baseCache.getHmap(token);
+		 int userId = (int)hamp.get("id");
+		 //3.根据id查询账户信息
+		UserAccountModel account = accountservice.findByUserId(userId);
+		//4.将数据封装，响应到浏览器
+		List<JSONObject> list = new ArrayList<JSONObject>();
+		JSONObject object = new JSONObject();
+		object.put("u_total",account.getTotal());
+		object.put("u_balance",account.getBalance());
+		object.put("u_interest_a",account.getInterestA());
+		list.add(object);
+
+		try {
+			this.getResponse().getWriter().write(Response.build().setStatus("1").setData(list).toJSON());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+	/**
+	 * 1.获取token
+	 * 2.从redis中删除
+	 * 3.响应数据
+	 */
+	@Action("logout")
+	public void logout(){
+		String token = this.getRequest().getHeader("token");
+		Map<String,Object> redisToken = baseCache.getHmap(token);
+
+		try {
+		if(redisToken ==null ||redisToken.size()==0){
+			this.getResponse().getWriter().write(Response.build().setStatus(FrontStatusConstants.NULL_TOKEN).toJSON());
+			return;
+		}
+		baseCache.del(token);
+
+		this.getResponse().getWriter().write(Response.build().setStatus("1").toJSON());
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}

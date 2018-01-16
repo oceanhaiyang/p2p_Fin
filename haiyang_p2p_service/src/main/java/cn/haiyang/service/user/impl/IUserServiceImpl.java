@@ -35,4 +35,9 @@ public class IUserServiceImpl implements IUserService {
 	public UserModel login(String username,String password){
 		return  iUserDao.findByUsernameAndPassword(username,password);
 	}
+
+	@Override
+	public UserModel findById(int userId) {
+		return iUserDao.findOne(userId);
+	}
 }

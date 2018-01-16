@@ -249,7 +249,7 @@ angular.module('AppCommonService', ['ngCookies','ui.router'])
             
             //用户账户主页图
             personCenter:function($str){
-                return $http.post(option.url.api_acount+'accountHomepage', $str, option.header);
+                return $http.post(option.url.api_user+'accountHomepage', $str, option.header);
             },
             
           

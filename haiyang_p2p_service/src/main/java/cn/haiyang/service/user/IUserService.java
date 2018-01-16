@@ -10,4 +10,6 @@ public interface IUserService {
 	public boolean addUser(UserModel user);
 
 	public UserModel login(String username,String password);
+
+	UserModel findById(int userId);
 }
