@@ -875,6 +875,7 @@ angular
 							return false;
 						}
 						var param = 'phone=' + phone + '&phoneCode=' + code;
+						alert(param);
 						PostService.addPhoneAuth(param).success(function(res) {
 							if (res.status == 1) {
 								$scope.phoneMsg = '';
@@ -922,7 +923,7 @@ angular
 							};
 							PostService.checkPhone(objToStr(data)).success(
 									function(res) {
-										if (res.status == 1) {
+										if (res.status == 67) {
 											$scope.phoneMsg = '该手机号可用!';
 											$scope.reaccept = false;
 										} else if (res.status == 15) {
@@ -2113,7 +2114,7 @@ angular
 							};
 							PostService.checkPhone(objToStr(data)).success(
 									function(res) {
-										if (res.status == 1) {
+										if (res.status == 67) {
 											$scope.phoneMsg = '该手机号可用!';
 											$scope.reaccept = false;
 										} else if (res.status == 15) {

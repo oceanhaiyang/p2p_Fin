@@ -1,0 +1,417 @@
+<div id="mainarea">
+    <div class="titleheader">
+        <h2>安全设置</h2>
+    </div>
+    <div class="container">
+        <div class="table_box">
+            <table width="790" class="table">
+                <tbody>
+                    <tr>
+                        <td width="82">用户名</td>
+                        <td width="137"><img width="14" height="14" alt="已认证" src="styles/images/member/ico_succeed.png"></td>
+                        <td width="421" ng-bind="userName"></td>
+                        <td width="130" class="tc a-setBtn"></td>
+                    </tr>
+                    
+                    <tr ng-show="!phoneStatus">
+                        <td>手机认证</td>
+                        <td><img width="14" height="14" alt="未认证" src="styles/images/member/ico_attention.png"></td>
+                        <td><span class="c_orange">未认证</span></td>
+                        <td class="tc a-setBtn"><a class="c_blue" href="javascript:void(0);" ng-click="openphoneAuthBox();">认证</a></td>
+                    </tr>
+                    <tr ng-show="phoneStatus">
+                        <td>手机认证</td>
+                        <td width="137"><img width="14" height="14" alt="已认证" src="styles/images/member/ico_succeed.png"></td>
+                        <td ng-bind="authPhone"></td>
+                        <td class="tc a-setBtn"><a class="c_blue" href="javascript:void(0);" ng-click="modifyPhoneBox();">更换手机号</a></td>
+                    </tr>
+                    <!--手机认证-->
+                    <tr class="set_content" ng-class="{'set_content_none': openPhonebox}">
+                        <td colspan="4"><div class="set_box_line">
+                                <a href="javascript:void(0);" class="close" ng-click="shutphoneAuthBox();">x</a>
+                                <h3 class="set_title">认证手机号</h3>
+                                <table width="100%" ng-show="PhoneTableBox">
+                                    <tbody><tr>
+                                            <td width="20%" class="tr">手机号</td>
+                                            <td width="80%"><input type="text" style="width:238px;" class="input-box" ng-model="phoneNum" ng-blur="authPhoneFunction()">
+                                                &nbsp;<span class="c_orange" ng-bind="phoneMsg"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="tr">手机验证码 </td>
+                                            <td>
+                                                <input type="text" style="width:100px;" ng-model="phoneNumCaptcha" ng-blur="authPhoneCaptFunc()">
+                                                &nbsp;
+                                                <input type="button" class="btn-blue f16" value="获取短信" style="background-color: #fd953f;" ng-click="sendPhoneCaptcha(phoneNum)" ng-show="!reaccept"/>
+                                                <input type="button" class="btn-gray f16" value="{{msg || '获取短信'}}" ng-show="reaccept">
+                                                &nbsp;<span class="c_orange" ng-bind="authPhoneMsg"></span>
+                                                
+                                                
+                                                
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="tr">&nbsp;</td>
+                                            <td><input type="button" class="btn" value="&nbsp;提交&nbsp;" ng-click="submitPhone(phoneNum,phoneNumCaptcha);"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="set_content" ng-class="{'set_content_none': Phonebox}">
+                        <td colspan="4"><div class="set_box_line">
+                                <a href="javascript:void(0);" class="close" ng-click="shutPhoneBox();">x</a>
+                                <h3 class="set_title">更换手机号</h3>
+                                <table width="100%" ng-show="PhoneTableBox">
+                                    <tbody><tr>
+                                            <td width="20%" class="tr">新手机号</td>
+                                            <td width="80%"><input type="text" style="width:238px;" class="input-box" ng-model="newphone" ng-blur="authPhoneFunc()">
+                                                &nbsp;<span class="c_orange" ng-bind="phoneMsg"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="tr">手机验证码 </td>
+                                            <td>
+                                                <input type="text" style="width:100px;" ng-model="phonecaptcha" ng-blur="authCaptFunc()">
+                                                &nbsp;
+                                                <input type="button" class="btn-blue f16" value="获取短信" style="background-color: #fd953f;" ng-click="sendPhoneCaptcha(newphone)" ng-show="!reaccept"/>
+                                                <input type="button" class="btn-gray f16" value="{{msg || '获取短信'}}" ng-show="reaccept">
+                                                &nbsp;<span class="c_orange" ng-bind="authPhoneMsg"></span>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="tr">&nbsp;</td>
+                                            <td><input type="button" class="btn" value="&nbsp;提交&nbsp;" ng-click="submitModifyPhone();"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div style="height:120px;padding-top:30px;" class="dialog-tips f16" ng-show="PhoneSuccessBox">
+                                    <span class="ico-succeed"></span>&nbsp;&nbsp;恭喜您手机号更改成功！
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+					     <!--手机认证 end-->
+					<tr ng-show="realNameStatus">
+                        <td>实名认证</td>
+                        <td><img width="14" height="14" alt="已认证" src="styles/images/member/ico_succeed.png"></td>
+                        <td><span>已认证</span></td>
+                        <td class="tc a-setBtn"><a class="c_blue">认证成功</a></td>
+                    </tr>
+                    <tr ng-show="!realNameStatus">
+                        <td>实名认证</td>
+                        <td><img width="14" height="14" alt="未认证" src="styles/images/member/ico_attention.png"></td>
+                        <td><span class="c_orange">未认证</span></td>
+                        <td class="tc a-setBtn"><a class="c_blue" href="javascript:void(0);" ng-click="IdAuthBox();">认证</a></td>
+                    </tr>
+                    <!--实名认证-->
+                    <tr class="set_content" ng-class="{'set_content_none': idAuthbox}">
+                        <td colspan="4"><div class="set_box_line">
+                                <a href="javascript:void(0);" class="close" ng-click="shutIdAuthBox();">x</a>
+                                <h3 class="set_title">实名认证</h3>
+                                <table width="100%" ng-show="IDTableBox">
+                                    <tbody>
+                                        <tr>
+                                            <td width="20%" class="tr">姓名</td>
+                                            <td width="80%"><input type="text" style="width:238px;" class="input-box" ng-model="realName" ng-blur="authRealName()" maxlength="8"/>
+                                                &nbsp; <span class="c_orange" ng-bind="authRealMsg"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="tr">身份证</td>
+                                            <td><input type="text" style="width:238px;" class="input-box" ng-model="identity" ng-blur="authID()" />
+                                                &nbsp; <span class="c_orange" ng-bind="IdAuthMsg"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="tr">&nbsp;</td>
+                                            <td><input type="button" class="btn" id="_btn" value="提交认证" ng-click="submitIdAuth()"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div style="height:120px;padding-top:30px;" class="dialog-tips f16" ng-show="IDSuccessBox">
+                                    <span class="ico-succeed"></span>&nbsp;&nbsp;恭喜您实名认证成功！
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <!--实名认证 end-->
+
+                    <tr ng-show="!emailStatus">
+                        <td>邮箱验证</td>
+                        <td><img width="14" height="14" alt="未认证" src="styles/images/member/ico_attention.png"></td>
+                        <td><span class="c_orange">未认证</span></td>
+                        <td class="tc a-setBtn"><a class="c_blue" href="javascript:void(0);" ng-click="authEmailBox();">验证</a></td>
+                    </tr>
+               
+                    <tr ng-show="emailStatus">
+                        <td>邮箱验证</td>
+                        <td><img width="14" height="14" alt="已认证" src="styles/images/member/ico_succeed.png"></td>
+                        <td><span>已认证</span></td>
+                        <td class="tc a-setBtn"><a class="c_blue" href="javascript:void(0);" ng-click="modifyEmailBox();">修改邮箱</a></td>
+                    </tr>
+                    <!--邮箱认证-->
+                    <tr class="set_content" ng-class="{'set_content_none': AuthEmailbox}">
+                        <td colspan="4"><div class="set_box_line">
+                                <a href="javascript:void(0);" class="close" ng-click="shutAuthEmailBox();">x</a>
+                                <h3 class="set_title">邮箱认证</h3>
+                                <table width="100%"  ng-show="EmailTableBox">
+                                    <tbody><tr>
+                                            <td width="20%" class="tr">请输入邮箱</td>
+                                            <td width="80%">
+                                                <input type="text" style="width:238px;" class="input-box" ng-model="emailAddress" ng-blur="authEmailFunc()"/>
+                                                &nbsp;&nbsp;<span class="c_orange" ng-bind="authEmailMsg"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="tr">&nbsp;</td>
+                                            <td><p style="margin-bottom:10px;">
+                                                    <input type="button" class="btn" value="发送验证邮件" ng-click="submitAuthEmail()">
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div style="height:120px;padding-top:30px;" class="dialog-tips f16" ng-show="EmailSuccessBox">
+                                    <span class="ico-succeed"></span>&nbsp;&nbsp;认证邮件发送成功，请登录邮箱进行激活！
+                                    <p class="c_gray">没有收到邮件？ <a class="c_blue" href="javascript:void(0);"  ng-click="submitAuthEmail();">点击重发</a></p>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr class="set_content" ng-class="{'set_content_none': Emailbox}">
+                        <td colspan="4"><div class="set_box_line">
+                                <a href="javascript:void(0);" class="close" ng-click="shutEmailBox();">x</a>
+                                <h3 class="set_title">邮箱认证</h3>
+                                <table width="100%" ng-show="EmailTableBox1">
+                                    <tbody>
+                                        <tr>
+                                            <td width="20%" class="tr">请输入旧邮箱</td>
+                                            <td width="80%"><input type="text" style="width:238px;" class="input-box" ng-model="oldEmail" ng-blur="authOldEmailFunc()">
+                                                &nbsp;&nbsp;<span class="c_orange" ng-bind="modifyMsg"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="20%" class="tr">请输入新邮箱</td>
+                                            <td width="80%">
+                                                <input type="text" style="width:238px;" class="input-box" ng-model="newEmail" ng-blur="authNewEmailFunc()">
+                                                &nbsp;&nbsp;<span class="c_orange" ng-bind="modifyNewMsg"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="tr">&nbsp;</td>
+                                            <td>
+                                                <p style="margin-bottom:10px;">
+                                                    <input type="button" class="btn" value="发送修改验证邮件" ng-click="submitModifyEmail();">
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <div style="height:120px;padding-top:30px;" class="dialog-tips f16" ng-show="EmailSuccessBox1">
+                                    <span class="ico-succeed"></span>&nbsp;&nbsp;认证邮件发送成功，请登录邮箱进行激活！
+                                    <p class="c_gray">没有收到邮件？ <a class="c_blue" href="javascript:void(0);"  ng-click="submitModifyEmail();">点击重发</a></p>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <!--邮箱认证 end-->
+
+                    <tr>
+                        <td>登录密码</td>
+                        <td width="137"><img width="14" height="14" alt="已认证" src="styles/images/member/ico_succeed.png"></td>
+                        <td>已设置</td>
+                        <td class="tc"><a class="c_blue" href="javascript:void(0);" ng-click="modifyPwdBox();">修改</a></td>
+                    </tr>
+                    <tr class="set_content" ng-class="{'set_content_none': setPwdbox}">
+                        <td colspan="4"><div class="set_box_line">
+                                <a href="javascript:void(0);" class="close"  ng-click="shutPwdBox();">x</a>
+                                <h3 class="set_title">修改登录密码</h3>
+                                <table width="100%"  ng-show="PwdTableBox">
+                                    <tbody>
+                                        <tr>
+                                            <td width="20%" class="tr">旧密码</td>
+                                            <td width="80%"><input type="password" style="width:238px;" class="input-box" ng-model="oldPassword" ng-blur="authPwdFunc()"/>
+                                                &nbsp;&nbsp;<span class="c_orange" ng-bind="pwdOldErrorMsg"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="20%" class="tr">新密码</td>
+                                            <td width="80%"><input type="password" style="width:238px;" class="input-box" ng-model="newPassword" ng-blur="authNewPwdFunc()"/>
+                                                &nbsp;&nbsp;<span class="c_orange" ng-bind="pwdNewErrorMsg"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th></th>
+                                            <td><div class="error_tips"><p class="pwd_tips_bar pwd_tips_bg{{strong}}"></p></div></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="20%" class="tr">确认新密码</td>
+                                            <td width="80%"><input type="password" style="width:238px;" class="input-box" ng-model="confirm_password" ng-blur="yzconfirm_password()"/>
+                                                &nbsp;&nbsp;<span class="c_orange" ng-bind="repwd_error_msg"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th></th>
+                                            <td><div class="error_tips" ng-bind="resetpwdMsg"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="tr">&nbsp;</td>
+                                            <td><input type="button" class="btn" value="提交" ng-click="submitModifyPwd();"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div style="height:120px;padding-top:30px;" class="dialog-tips f16" ng-show="PwdSuccessBox">
+                                    <span class="ico-succeed"></span>&nbsp;&nbsp;恭喜您密码更改成功！
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr ng-show="!payStatus">
+                        <td>支付密码</td>
+                        <td><img width="14" height="14" alt="未设置" src="styles/images/member/ico_attention.png"></td>
+                        <td><span class="c_orange">未设置</span></td>
+                        <td class="tc a-setBtn"><a class="c_blue" href="javascript:void(0);" ng-click="setPayPwdBox();">设置</a></td>
+                    </tr>
+                    <tr ng-show="payStatus">
+                        <td>支付密码</td>
+                        <td><img width="14" height="14" alt="已设置" src="styles/images/member/ico_succeed.png"></td>
+                        <td><span>已设置</span></td>
+                        <td class="tc a-setBtn"><a class="c_blue" href="javascript:void(0);" ng-click="resetPayPwdBox();">重置</a> <a class="c_blue" href="javascript:void(0);" ng-click="backPayPwdBox();">找回</a></td>
+                    </tr>
+
+                    <!--支付密码-->
+                    <tr class="set_content" ng-class="{'set_content_none':SetPayPwdbox}">
+                        <td colspan="4"><div class="set_box_line">
+                                <a href="javascript:void(0);;" class="close" ng-click="shutSetPayPwdBox();">x</a>
+                                <h3 class="set_title">支付密码</h3>
+                                <table width="100%"  ng-show="payPwdTableBox">
+                                    <tbody>
+                                        <tr>
+                                            <td width="20%" class="tr">设置支付密码</td>
+                                            <td width="80%">
+                                                <input type="password" style="width:238px;" class="input-box" ng-model="payPwd" ng-keyup="checkPayPwd()" ng-blur="checkPayPwd()">
+                                                &nbsp;&nbsp;<span class="c_orange" ng-bind="payPwdMsg"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th></th>
+                                            <td><div class="error_tips"><p class="pwd_tips_bar pwd_tips_bg{{paystrong}}"></p></div></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="tr">再次输入支付密码</td>
+                                            <td>
+                                                <input type="password" style="width:238px;" class="input-box" ng-model="rePayPwd" ng-keyup="recheckPayPwd()">
+                                                &nbsp;&nbsp;<span class="c_orange" ng-bind="repayPwdMsg"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="tr">&nbsp;</td>
+                                            <td><input type="button" class="btn" value="确认设置" ng-click="submitPayPwd();"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div style="height:120px;padding-top:30px;" class="dialog-tips f16" ng-show="payPwdSuccessBox">
+                                    <span class="ico-succeed"></span>&nbsp;&nbsp;{{payPwdSuccessMsg}}
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <!--支付密码 end-->
+                    <!--支付密码-->
+                    <tr class="set_content" ng-class="{'set_content_none':resetPayPwdbox}">
+                        <td colspan="4"><div class="set_box_line">
+                                <a href="javascript:void(0);" class="close" ng-click="shutPayPwdBox();">x</a>
+                                <h3 class="set_title">支付密码修改</h3>
+                                <table width="100%"  ng-show="payPwdTableBox1">
+                                    <tbody><tr>
+                                            <td width="20%" class="tr">原支付密码</td>
+                                            <td width="80%">
+                                                <input type="password" style="width:238px;" class="input-box" ng-model="oldPayPwd" ng-keyup="checkOldPayPwd()" ng-blur="checkOldPayPwd()">
+                                                &nbsp;&nbsp;<span class="c_orange" ng-bind="oldPayPwdMsg"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="21%" class="tr">新支付密码</td>
+                                            <td width="79%">
+                                                <input type="password" style="width:238px;" class="input-box"  ng-model="newPayPwd" ng-keyup="checkNewPayPwd()" ng-blur="checkNewPayPwd()">
+                                                &nbsp;&nbsp;<span class="c_orange" ng-bind="newPayPwdMsg"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th></th>
+                                            <td><div class="error_tips"><p class="pwd_tips_bar pwd_tips_bg{{mnewpaystrong}}"></p></div></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="tr">确认支付密码</td>
+                                            <td>
+                                                <input type="password" style="width:238px;" class="input-box" ng-model="reNewPayPwd" ng-blur="recheckNewPayPwd()">
+                                                &nbsp;&nbsp;<span class="c_orange" ng-bind="nweRePayPwdMsg"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="tr">&nbsp;</td>
+                                            <td><input type="button" class="btn" value="提交支付密码修改" ng-click="submitPayPwdUpdate();"></td>
+                                        </tr>
+                                    </tbody></table>
+                                <div style="height:120px;padding-top:30px;" class="dialog-tips f16" ng-show="payPwdSuccessBox1">
+                                    <span class="ico-succeed"></span>&nbsp;&nbsp;恭喜您成功修改支付密码！
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr class="set_content" ng-class="{'set_content_none':backPayPwdbox}">
+                        <td colspan="4">
+                            <div class="set_box_line">
+                                <a href="javascript:void(0);" class="close" ng-click="shutbackPayPwdBox();">x</a>
+                                <h3 class="set_title">支付密码找回</h3>
+                                <table width="100%"  ng-show="payPwdTableBox2">
+                                    <tbody><tr>
+                                            <td width="21%" class="tr">验证码</td>
+                                            <td width="79%">
+                                                <input type="text" style="width:118px;" class="input-box" ng-model="phoneCode">
+                                                &nbsp;
+                                                <input type="button" class="btn-gray" value="{{PayPwdPhonemsg || '短信获取'}}" ng-disabled="IsResend" ng-click="sendPhoneCode()">
+                                                &nbsp;<span class="c_gray">验证码会发送到您已认证的手机上</span></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td width="21%" class="tr">新支付密码</td>
+                                            <td width="79%">
+                                                <input type="password" style="width:238px;" class="input-box" ng-model="PayNewPwd" ng-keyup="PayPwdCheck()" ng-blur="PayPwdCheck()">
+                                                &nbsp;&nbsp;<span class="c_orange" ng-bind="PayNewPwdMsg"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th></th>
+                                            <td><div class="error_tips"><p class="pwd_tips_bar pwd_tips_bg{{newpaystrong}}"></p></div></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="tr">确认支付密码</td>
+                                            <td>
+                                                <input type="password" style="width:238px;" class="input-box" ng-model="rePayNewPwd" ng-keyup="rePayPwdCheck()">
+                                                &nbsp;&nbsp;<span class="c_orange" ng-bind="rePayNewPwdMsg"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="tr">&nbsp;</td>
+                                            <td><input type="button" class="btn" value="&nbsp;&nbsp;提交&nbsp;&nbsp;" ng-click="submitBackPayPwd();"></td>
+                                        </tr>
+                                    </tbody></table>
+                                <div style="height:120px;padding-top:30px;" class="dialog-tips f16" ng-show="payPwdSuccessBox2">
+                                    <span class="ico-succeed"></span>&nbsp;&nbsp;恭喜您成功找回支付密码！
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <!--支付密码 end-->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

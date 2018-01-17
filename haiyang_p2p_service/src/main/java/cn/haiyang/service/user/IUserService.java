@@ -12,4 +12,6 @@ public interface IUserService {
 	public UserModel login(String username,String password);
 
 	UserModel findById(int userId);
+
+	void updatePhoneStatus(String phone,int userId);
 }
