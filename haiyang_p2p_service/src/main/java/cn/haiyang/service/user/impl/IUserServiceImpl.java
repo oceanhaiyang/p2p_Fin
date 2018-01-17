@@ -6,8 +6,10 @@ import org.springframework.stereotype.Service;
 import cn.haiyang.dao.user.IUserDao;
 import cn.haiyang.domain.user.UserModel;
 import cn.haiyang.service.user.IUserService;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class IUserServiceImpl implements IUserService {
 
 	@Autowired
@@ -39,5 +41,10 @@ public class IUserServiceImpl implements IUserService {
 	@Override
 	public UserModel findById(int userId) {
 		return iUserDao.findOne(userId);
+	}
+
+	@Override
+	public void updatePhoneStatus(String phone, int userId) {
+		iUserDao.updatePhoneStatus(phone,userId);
 	}
 }

@@ -292,6 +292,31 @@ public class UserAction extends BaseAction implements ModelDriven<UserModel>{
 			e.printStackTrace();
 		}
 	}
+    //获取用户安全详细信息
+	@Action("userSecureDetailed")
+    public void userSecureDetailed(){
+        String token = GetHttpResponseHeader.getHeadersInfo(this.getRequest());
+        //String token = this.getRequest().getHeader("token");
+        try{
+            Map<String,Object> hmap = baseCache.getHmap(token);
+            int userId = (int)hmap.get("id");
+            UserModel u = iUserService.findById(userId);
+            List<JSONObject> list = new ArrayList<JSONObject>();
+            JSONObject object = new JSONObject();
+            object.put("phoneStatus",u.getPhoneStatus());
+            object.put("realNameStatus",u.getRealNameStatus());
+            object.put("payPwdStatus",u.getPayPwdStatus());
+            object.put("emailStatus",u.getEmailStatus());
+            object.put("passwordstatus",u.getPassword());
+            object.put("username",u.getUsername());
+            object.put("phone",u.getPhone());
+            list.add(object);
+
+            this.getResponse().getWriter().write(Response.build().setStatus("1").setData(list).toJSON());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 	//账户中心
 	@Action("accountHomepage")
 	public void accountHomepage(){
