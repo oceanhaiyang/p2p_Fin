@@ -14,4 +14,10 @@ public interface IUserService {
 	UserModel findById(int userId);
 
 	void updatePhoneStatus(String phone,int userId);
+
+	void updateRealName(String userName,String identity,int id);
+
+	void addEmail(String email,int id);
+
+	void updateEmailStatus(int id);
 }

@@ -168,7 +168,7 @@ angular.module('AppCommonService', ['ngCookies','ui.router'])
             
             //邮箱绑定认证
             authEmail:function($str){
-                return $http.post(option.url.api_emailAuth+'auth', $str, option.header);
+                return $http.post(option.url.api_verification+'auth', $str, option.header);
                 // /haiyang_p2p_action/emailAuth/auth
             },
             //修改邮箱
