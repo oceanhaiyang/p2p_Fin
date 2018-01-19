@@ -4,9 +4,12 @@ import cn.haiyang.action.admin.BaseAction;
 import cn.haiyang.cache.BaseCacheService;
 import cn.haiyang.domain.user.UserModel;
 import cn.haiyang.filter.GetHttpResponseHeader;
+import cn.haiyang.service.mail.MailService;
 import cn.haiyang.service.user.IUserService;
+import cn.haiyang.utils.EmailUtils;
 import cn.haiyang.utils.FrontStatusConstants;
 import cn.haiyang.utils.Response;
+import cn.haiyang.utils.SecretUtil;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.convention.annotation.Action;
@@ -27,6 +30,9 @@ public class VerificationAction extends BaseAction{
 
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private MailService mailService;
     //发送短信
     @Action("sendMessage")
     public void sendMessage(){
@@ -52,9 +58,10 @@ public class VerificationAction extends BaseAction{
 
     }
 
-//先判断token的状态
+//绑定手机
     @Action("addPhone")
     public void addPhone(){
+        //先判断token的状态
         String token = GetHttpResponseHeader.getHeadersInfo(this.getRequest());
 
         try {
@@ -98,6 +105,81 @@ public class VerificationAction extends BaseAction{
             this.getResponse().getWriter().write(Response.build().setStatus(FrontStatusConstants.SUCCESS).toJSON());
 
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Action("verifiRealName")
+    public void verifiRealName(){
+        //先判断token的状态
+        String token = GetHttpResponseHeader.getHeadersInfo(this.getRequest());
+
+        try {
+            if (StringUtils.isEmpty(token)){
+                //token过期
+                this.getResponse().getWriter().write(Response.build().setStatus(FrontStatusConstants.NULL_TOKEN).toJSON());
+                return;
+
+            }
+            Map<String,Object> hmap = baseService.getHmap(token);
+            if(hmap ==null||hmap.size()==0){
+                //用户未登录
+                this.getResponse().getWriter()
+                        .write(Response.build().setStatus(FrontStatusConstants.NOT_LOGGED_IN).toJSON());
+                return;
+
+            }
+
+            String realName = this.getRequest().getParameter("realName");
+            String identity = this.getRequest().getParameter("identity");
+
+            userService.updateRealName(realName,identity,(int)hmap.get("id"));
+            this.getResponse().getWriter()
+                    .write(Response.build().setStatus(FrontStatusConstants.SUCCESS).toJSON());
+            return;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Action("auth")
+    public void auth(){
+        GetHttpResponseHeader.getHeadersInfo(this.getRequest());
+
+        String userId = this.getRequest().getParameter("userId");
+
+        String username = this.getRequest().getParameter("username");
+
+        String email = this.getRequest().getParameter("email");
+
+        String title = "邮箱认证激活";
+        try {
+            String enc = SecretUtil.encrypt(userId);
+            String content = EmailUtils.getMailCapacity(email,enc,username);
+            mailService.sendMail(email,title,content);
+
+            userService.addEmail(email,Integer.parseInt(userId));
+            this.getResponse().getWriter()
+                    .write(Response.build().setStatus(FrontStatusConstants.SUCCESS).toJSON());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    @Action("emailactivation")
+    public void emailactivation(){
+        //this.getResponse().setCharacterEncoding("utf-8");
+        String us = this.getRequest().getParameter("us");
+
+        try {
+            String userId = SecretUtil.decode(us);
+            userService.updateEmailStatus(Integer.parseInt(userId));
+            this.getResponse().getWriter().write("认证成功");
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

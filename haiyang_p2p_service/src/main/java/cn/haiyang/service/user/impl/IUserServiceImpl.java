@@ -47,4 +47,20 @@ public class IUserServiceImpl implements IUserService {
 	public void updatePhoneStatus(String phone, int userId) {
 		iUserDao.updatePhoneStatus(phone,userId);
 	}
+
+	@Override
+	public void updateRealName(String userName, String identity, int id) {
+		iUserDao.updateRealName(userName,identity,id);
+	}
+
+	@Override
+	public void addEmail(String email, int id) {
+		iUserDao.addEmail(email,id);
+	}
+
+	@Override
+	public void updateEmailStatus(int id) {
+		iUserDao.updateEmailStatus(id);
+
+	}
 }

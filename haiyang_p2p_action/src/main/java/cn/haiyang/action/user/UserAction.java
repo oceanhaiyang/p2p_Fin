@@ -295,6 +295,8 @@ public class UserAction extends BaseAction implements ModelDriven<UserModel>{
     //获取用户安全详细信息
 	@Action("userSecureDetailed")
     public void userSecureDetailed(){
+
+		this.getResponse().setCharacterEncoding("utf-8");
         String token = GetHttpResponseHeader.getHeadersInfo(this.getRequest());
         //String token = this.getRequest().getHeader("token");
         try{

@@ -21,4 +21,6 @@
 	<import resource="applicationContext-dataSource.xml"></import>
 	
 	<import resource="applicationContext-cache.xml"/>
+
+	<import resource="applicationContext-mail.xml"/>
 </beans>
