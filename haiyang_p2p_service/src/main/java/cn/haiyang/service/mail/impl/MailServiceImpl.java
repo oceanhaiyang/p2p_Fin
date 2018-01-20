@@ -1,6 +1,8 @@
 package cn.haiyang.service.mail.impl;
 
 import cn.haiyang.service.mail.MailService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -10,8 +12,12 @@ import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+
 @Service
 public class MailServiceImpl implements MailService {
+
+    Logger logger = LoggerFactory.getLogger(MailServiceImpl.class);
+
     @Autowired
     private JavaMailSender javaMailSender;
     @Value("${mail.from}")
@@ -32,5 +38,7 @@ public class MailServiceImpl implements MailService {
         }
 
         javaMailSender.send(mm);
+        System.out.println("邮件发送");
+
     }
 }
