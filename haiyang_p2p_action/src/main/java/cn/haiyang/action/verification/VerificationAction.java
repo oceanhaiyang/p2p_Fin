@@ -157,6 +157,7 @@ public class VerificationAction extends BaseAction{
         try {
             String enc = SecretUtil.encrypt(userId);
             String content = EmailUtils.getMailCapacity(email,enc,username);
+
             mailService.sendMail(email,title,content);
 
             userService.addEmail(email,Integer.parseInt(userId));
@@ -172,7 +173,7 @@ public class VerificationAction extends BaseAction{
 
     @Action("emailactivation")
     public void emailactivation(){
-        //this.getResponse().setCharacterEncoding("utf-8");
+        this.getResponse().setContentType("text/html;charset=utf-8");
         String us = this.getRequest().getParameter("us");
 
         try {
