@@ -48,7 +48,7 @@ public class VerificationAction extends BaseAction{
 
 
 
-        baseService.expire("phone",3*60);
+        baseService.expire(phone,3*60);
 
         try {
             this.getResponse().getWriter().write(Response.build().setStatus("1").toJSON());
