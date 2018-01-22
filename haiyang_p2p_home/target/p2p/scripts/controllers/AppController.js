@@ -3065,7 +3065,7 @@ angular
 																					&& $(
 																							target)
 																							.attr(
-																									'name') === 'moto-buying') {
+																									'name') === 'moto-buying') {//判段是否点击的是属性为name的a标签。
 																				$(
 																						'a[name=moto-buying]')
 																						.removeClass(
