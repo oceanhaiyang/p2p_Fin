@@ -1,0 +1,151 @@
+<div id="mainarea">
+    <div class="titleheader">
+        <h2>充值</h2>
+    </div>
+    <!--选择银行-->
+    <div class="area_box">
+        <div class="content">
+            <div class="option_bank">
+                <h3>选择银行</h3>
+                <div class="option_bank_con clearfix">
+                    <ul class="option_bank_list">
+                        <li ng-repeat="item in banks" ng-click='setBank(item,$index)'><div ng-class="{cur:$index == selectNo}"><span class="i"></span><img ng-src="{{item.src}}"></div></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--选择银行 end-->
+    <div class="area_box mb25">
+        <div class="content">
+            <div class="option_bank">
+                <h3>选择支付通道</h3>
+                <div class="option_bank_con clearfix">
+                    <ul class="option_bank_list">
+                        <li ng-if="selectBank.epro != undefined" ng-click="setProvider(2,'epro')">
+                            <div ng-class="{cur: providerId==2}"><span class="i"></span><img src="styles/images/member/pay/yeePay.gif" alt="易宝支付"></div>
+                        </li>
+                        <li ng-if="selectBank.gopay != undefined" ng-click="setProvider(0,'gopay')">
+                            <div ng-class="{cur: providerId==0}"><span class="i"></span><img src="styles/images/member/pay/goPay.gif" alt="国付宝"></div>
+                        </li>
+                        <li ng-if="selectBank.chinabank != undefined" ng-click="setProvider(1,'chinabank')">
+                            <div ng-class="{cur: providerId==1}"><span class="i"></span><img src="styles/images/member/pay/chinabankPay.gif" alt="网银在线"></div>
+                        </li>
+                        <li ng-if="selectBank.sinamerchant != undefined" ng-click="setProvider(3,'sinamerchant')">
+                            <div ng-class="{cur: providerId==3}"><span class="i"></span><img src="styles/images/member/pay/sinaPay.gif" alt="新浪支付"></div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="table_box">
+                    <table width="100%" class="table normal">
+                        <tr>
+                            <th width="11%" class="tr">可用余额</th>
+                            <td width="89%"><span class="f18 c_orange" ng-bind="usable">元</span></td>
+                        </tr>
+                        <tr>
+                            <th class="tr">充值金额</th>
+                            <td>
+                                <input type="text" class="input-text" ng-model='money' ng-class="{'error-text':money_error_msg}" style="width:150px;" ng-blur="yzmoney()" onkeyup="value=value.replace(/\s/g,'')">
+                                &nbsp;&nbsp;元
+                                <span ng-class="{'ico-correct': money_is_pass}"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style='border-bottom:none'>&nbsp;</th>
+                            <td><input type="button" name="button" value="确认支付" class="btn btn-primary" ng-click="payAccount()"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footnote">
+        <ul>
+            <li>1. 线上充值手续费全免，充值前请确认您银行卡限额，以免造成不便。 </li>
+            <li>2. 充值成功后没有进行任何理财行为，10个工作日后受理客户的申请提现。</li>
+            <li>3. 严禁信用卡充值、套现等行为，一经发现将予以处罚，包括但不限于：限制收款、冻结账户、永久停止服务。</li>
+        </ul>
+    </div>
+</div>
+<!--mainarea end--> 
+<!---弹窗区域--->
+<div class="modal fade" id="alertBox" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width:520px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                <h3 id="">提示</h3>
+            </div>
+            <div class="modal-body">
+                <div class="my-modal">
+                    <div class="dialog-tips">
+                        <p>请在新打开的页面上完成支付，支付完成前请不要关闭窗口</p>
+                        <p>正在跳转请稍后......</p>
+                    </div>
+                    <div class="my-modal-footer">
+                        <a ui-sref="helper.pay" class="btn btn-gray">支付遇到问题</a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <button type="" class="btn" ng-click="gotoUrl()">支付完成</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!---弹窗区域--->
+<div class="modal fade" id="alertBox1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width:725px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                <h3>提示</h3>
+            </div>
+            <div class="modal-body">
+                <div class="my-modal">
+                    <table width="100%" class="table">
+                        <tr>
+                            <td width="19">&nbsp;</td>
+                            <td colspan="2">
+                                <div ng-show="!is_auth_pass"><img src="styles/images/member/ico_attention.png" width="14" height="14">&nbsp;&nbsp;您还没有进行实名认证</div>
+                                <div ng-show="is_auth_pass"><img src="styles/images/member/ico_succeed.png" width="14" height="14" onclick="">&nbsp;&nbsp;您已经进行了实名认证</div>
+                            </td>
+                            <td width="195" class="tc a-setBtn">
+                                <button ng-show="!is_auth_pass" type="button" class="btn" id="authId" ng-click="showAuthBox()">认证</button>
+                                <span ng-show="is_auth_pass" class="c_grey">已认证</span>
+                            </td>
+                        </tr>
+                        <!--实名认证-->
+                        <tr class="set_content" style="display:none;" id="authBox">
+                            <td colspan="4">
+                                <div class="set_box_line">
+                                    <h3 class="set_title">实名认证</h3>
+                                    <table width="100%">
+                                        <tr>
+                                            <td width="16%" class="tr">姓名</td>
+                                            <td width="84%">
+                                                <input type="text" style="width:238px;" class="input-box" ng-model="realName" ng-blur="authRealName()"/>
+                                                &nbsp; <span class="c_orange" ng-bind="authRealMsg"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="tr">身份证</td>
+                                            <td>
+                                                <input type="text" style="width:238px;" class="input-box" ng-model="identity" ng-blur="authID()" />
+                                                &nbsp; <span class="c_orange" ng-bind="IdAuthMsg"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="tr">&nbsp;</td>
+                                            <td><button type="button" class="btn"  ng-click="submitIdAuth()">提交认证</button></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
