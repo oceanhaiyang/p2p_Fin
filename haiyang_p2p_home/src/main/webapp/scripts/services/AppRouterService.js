@@ -252,7 +252,7 @@ angular.module('AppRouterService', ['ui.router'])
             templateUrl: 'views/space/bankinfo.html',
             controller: 'bankInfoCtrl',
             access:{
-                'requiredAuth':true
+                'requiredAuth':true//登陆验证
             }
         })
         

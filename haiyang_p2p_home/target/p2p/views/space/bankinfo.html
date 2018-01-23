@@ -1,0 +1,118 @@
+<div id="mainarea"> 
+    <!--添加银行卡-->
+    <div class="area_box mb50" ng-show="isHideBankBox">
+        <div class="titleheader">
+            <h2>银行卡设置</h2>
+        </div>
+        <div class="content">
+            <div class="bankCard_box">
+                <h3></h3>
+                <div class="bankCard_con clearfix"> 
+                    <!--bank_card-->
+                    <div ng-show="isExistBank">
+                        <ul class="bank_card" >
+                            <li>
+                                <p class="bank_name" ng-bind="bankObj.bankName"></p>
+                                <p class="bank-number" ng-bind="bankNumBind"></p>
+                                <p class="bank-doing"><a href="javascript:;" ng-click="editBankBox('modify')">修改</a></p>
+                            </li>
+                        </ul>
+                    </div>
+                    <a href="javascript:;" class="addCard" ng-show="!isExistBank" ng-click="editBankBox('add')"><span class="ico"></span>添加银行卡</a> 
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--添加银行卡 end-->
+    <div class="area_box  mb25"  ng-show="editBox">
+        <div class="titleheader">
+            <h2 ng-if="_type == 'add'">填加银行卡</h2>
+            <h2 ng-if="_type == 'modify'">修改银行卡</h2>
+        </div>
+        <div class="container pr">
+            <div class="table_box">
+                <table width="100%" class="table normal">
+                    <tr>
+                        <th width="18%" class="tr">持卡人：</th>
+                        <td width="82%" ng-bind="bankUserObj.realName"></td>
+                    </tr>
+                    <tr>
+                        <th width="12%" class="tr">身份证号码：</th>
+                        <td width="88%" ng-bind="bankUserObj.identity"></td>
+                    </tr>
+                    <tr>
+                        <th width="12%" class="tr">手机号：</th>
+                        <td width="88%" ng-bind="bankUserObj.authPhone"></td>
+                    </tr>
+                    <tr>
+                        <th class="tr">银行<font color="red" size="4">*</font>：</th>
+                        <td>
+                            <label>
+                                <select ng-model='bankNo' ng-options="bank.bankId as bank.bankName for bank in banks">
+                                    <option value=''>请选择</option>
+                                </select>
+                            </label>
+                            <span class="c_orange" ng-bind="bankMsg"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="tr">卡号<font color="red" size="4">*</font>：</th>
+                        <td>
+                            <input type="text" class="input-text" style="width:250px;" ng-model="bankCardNum" ng-class="{'error-text':isHaveCard}" ng-blur="yzcardNumber()">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="tr">开户城市<font color="red" size="4">*</font>：</th>
+                        <td>
+                            <label>
+                                <select ng-model='provinceNo' ng-change='getCity()' ng-options="item.cityAreaNum as item.cityName for item in items">
+                                    <option value=''>请选择</option>
+                                </select>
+                            </label>
+                            &nbsp;
+                            <label>
+                                <select ng-model='cityNo'  ng-change='getArea()' ng-options="city.cityAreaNum as city.cityName for city in citys">
+                                    <option value=''>请选择</option>
+                                </select>
+                            </label>
+                            <label>
+                                <select ng-model='areaNo' ng-options="area.cityAreaNum as area.cityName for area in areas">
+                                    <option value=''>请选择</option>
+                                </select>
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="tr">开户行支行<font color="red" size="4">*</font>：</th>
+                        <td>
+                            <input type="text" class="input-text" style="width:250px;" ng-class="{'error-text':isHaveBranch}" ng-model="branchBank" ng-blur="yzbranch()">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="tr">验证码<font color="red" size="4">*</font>：</th>
+                        <td>
+                            <input type="text" style="width:100px;" ng-model="phonecaptcha">&nbsp;
+                            <input type="button" class="btn btn-success f16" value="获取短信" style="width:117px;" ng-click="getauthcode()" ng-show="!reaccept"/>
+                            <input type="button" class="btn btn-gray f16" value="{{msg}}" ng-show="reaccept" style="width:117px;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><div style='color: #2fa8e1;font-size: 25px;margin-top: -15px;position: absolute' ng-bind="addBankInfoMsg"></div></td>
+                    </tr>
+                    <tr>
+                        <th>&nbsp;</th>
+                        <td>
+                            <input type="button" value="添加" class="btn btn-success" ng-click="saveBank('add')" ng-if="_type == 'add'">
+                            &nbsp;
+                            <input type="button" value="修改" class="btn btn-success" ng-click="saveBank('modify')" ng-if="_type == 'modify'">
+                            &nbsp;
+                            <input type="button" value="取消" class="btn-gray btn-cance" ng-click="bankCancel()"></td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
