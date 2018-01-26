@@ -2693,6 +2693,8 @@ angular
 					var data = {
 						'username' : $scope.loginName
 					};
+
+
 					// 查询用户银行卡信息
 					PostService.getCashInfo(objToStr(data)).success(
 							function(res) {
@@ -2714,6 +2716,8 @@ angular
 									$scope.bankObj = '';
 								}
 							});
+
+
 					// 点击添加银行卡
 					$scope.editBankBox = function(_type) {
 						$scope._type = _type;
@@ -2834,6 +2838,7 @@ angular
 									}
 								})
 					};
+					//第三级列表
 					$scope.areas = '';
 					$scope.getArea = function(type) {
 						if (type != 'auto') {
@@ -2851,6 +2856,7 @@ angular
 									}
 								})
 					};
+
 					$scope.yzcardNumber = function() {
 						if (!(/^\d{16,19}$/.test($scope.bankCardNum))) {
 							hmd.popupErrorInfo('请输入16到19位的银行卡号', 'error');

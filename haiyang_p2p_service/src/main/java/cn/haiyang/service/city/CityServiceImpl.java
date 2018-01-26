@@ -14,6 +14,12 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public List<City> findProvince() {
+
         return cityDao.findByParentCityAreaNumIsNull();
+    }
+
+    @Override
+    public List<City> findByParentCityAreaNum(String cityAreaNum) {
+        return cityDao.findByParentCityAreaNum(cityAreaNum);
     }
 }

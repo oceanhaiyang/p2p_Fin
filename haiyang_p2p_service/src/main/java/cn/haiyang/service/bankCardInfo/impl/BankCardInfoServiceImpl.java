@@ -17,4 +17,9 @@ public class BankCardInfoServiceImpl implements BankCardInfoService {
     public BankCardInfo findByUserId(Integer userId) {
         return bankCardInfoDao.findByUserId(userId);
     }
+
+    @Override
+    public void addBankCardInfo(BankCardInfo bci) {
+        bankCardInfoDao.save(bci);
+    }
 }

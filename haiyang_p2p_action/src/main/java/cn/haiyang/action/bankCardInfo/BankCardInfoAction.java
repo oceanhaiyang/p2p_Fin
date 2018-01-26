@@ -14,6 +14,7 @@ import cn.haiyang.service.user.IUserService;
 import cn.haiyang.utils.FrontStatusConstants;
 import cn.haiyang.utils.Response;
 import cn.haiyang.utils.TokenUtil;
+import com.opensymphony.xwork2.ModelDriven;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,15 @@ import java.util.Map;
 @Controller
 @Scope("prototype")
 @Namespace("/bankCardInfo")
-public class BankCardInfoAction extends BaseAction{
+public class BankCardInfoAction extends BaseAction implements ModelDriven<BankCardInfo>{
+
+    private BankCardInfo bankCardInfo = new BankCardInfo();
+
+    @Override
+    public BankCardInfo getModel() {
+        return bankCardInfo;
+    }
+
     @Autowired
     private BaseCacheService baseCacheService;
     @Autowired
@@ -42,6 +51,55 @@ public class BankCardInfoAction extends BaseAction{
 
     @Autowired
     private IUserService iUserService;
+
+    @Action("addBankCardInfo")
+    public void addBankCardInfo(){
+        String token =  GetHttpResponseHeader.getHeadersInfo(this.getRequest());
+
+        int userId = (int)baseCacheService.getHmap(token).get("id");
+
+        BankCardInfo bankCard = bankCardInfoService.findByUserId(userId);
+
+        try {
+
+            if(bankCard ==null){
+                bankCardInfo.setUserId(userId);
+                bankCardInfoService.addBankCardInfo(bankCardInfo);
+
+                this.getResponse().getWriter()
+                        .write(Response.build().setStatus(FrontStatusConstants.SUCCESS).toJSON());
+                return;
+
+            }
+            else{
+                this.getResponse().getWriter()
+                        .write(Response.build().setStatus(FrontStatusConstants.CARDINFO_ALREADY_EXIST).toJSON());
+                return;
+            }
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    //城市级联
+    @Action("findCity")
+    public void findCity(){
+        this.getResponse().setCharacterEncoding("utf-8");
+        String cityAreaNum = this.getRequest().getParameter("cityAreaNum");
+         List<City> cs = cityService.findByParentCityAreaNum(cityAreaNum);
+        try {
+            this.getResponse().getWriter()
+                    .write(Response.build().setStatus(FrontStatusConstants.SUCCESS).setData(cs).toJSON());
+            return;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     //获取用户银行卡信息
     @Action("findBankInfoByUsername")
@@ -95,8 +153,8 @@ public class BankCardInfoAction extends BaseAction{
     //查询所有银行
     @Action("findAllBanks")
     public void findAllBanks(){
-
-        this.getResponse().setContentType("text/html;charset:utf-8");
+        this.getResponse().setCharacterEncoding("utf-8");
+        //this.getResponse().setContentType("text/html;charset:utf-8");
         String token =  GetHttpResponseHeader.getHeadersInfo(this.getRequest());
 
         List<Bank> banks = bankService.findAll();
@@ -113,7 +171,8 @@ public class BankCardInfoAction extends BaseAction{
     //获取省份列表
     @Action("findProvince")
     public void findProvince(){
-        this.getResponse().setContentType("text/html;charset:utf-8");
+        this.getResponse().setCharacterEncoding("utf-8");
+        //this.getResponse().setContentType("text/html;charset:utf-8");
         List<City> cities = cityService.findProvince();
         try {
             this.getResponse().getWriter()
@@ -126,7 +185,7 @@ public class BankCardInfoAction extends BaseAction{
 
     @Action("findUserInfo")
     public void findUserInfo(){
-        this.getResponse().setContentType("text/html;charset:utf-8");
+       // this.getResponse().setContentType("text/html;charset:utf-8");
         this.getResponse().setCharacterEncoding("utf-8");
         String token =  GetHttpResponseHeader.getHeadersInfo(this.getRequest());
         Map<String,Object> hmap = baseCacheService.getHmap(token);
