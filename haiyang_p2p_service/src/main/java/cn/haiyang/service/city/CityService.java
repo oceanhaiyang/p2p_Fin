@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface CityService {
    List<City> findProvince();
+
+   List<City> findByParentCityAreaNum(String cityAreaNum);
 }

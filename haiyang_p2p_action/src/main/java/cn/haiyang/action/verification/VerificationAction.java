@@ -33,6 +33,18 @@ public class VerificationAction extends BaseAction{
 
     @Autowired
     private MailService mailService;
+
+
+    @Action("validateSMS")
+    public void validateSMS(){
+        try {
+            this.getResponse().getWriter().write(Response.build().setStatus("1").toJSON());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     //发送短信
     @Action("sendMessage")
     public void sendMessage(){

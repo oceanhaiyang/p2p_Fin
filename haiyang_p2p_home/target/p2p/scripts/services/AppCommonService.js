@@ -227,7 +227,7 @@ angular.module('AppCommonService', ['ngCookies','ui.router'])
                 return $http.post(option.url.api_bankcardInfo+'findUserInfo', $str, option.header);
             },
             
-            //借款  获取省份
+            // 获取省份
             getProvince:function($str){
                 return $http.post(option.url.api_bankcardInfo+'findProvince', $str, option.header);
             },
