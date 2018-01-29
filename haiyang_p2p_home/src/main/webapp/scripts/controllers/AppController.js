@@ -2051,7 +2051,7 @@ angular
 
 					$scope.phoneAuth = 0;
 					$scope.IDAuth = 0;
-					PostService.getAbleAccout().success(function(res) {
+					/*PostService.getAbleAccout().success(function(res) {
 						if (res.status == 1) {
 							var _data = res.data;
 							$scope.userid = _data.userId;
@@ -2063,7 +2063,7 @@ angular
 						} else {
 							hmd.popupErrorInfo(res.status);
 						}
-					});
+					});*/
 
 					$scope.is_phone_pass = true;
 					$scope.is_auth_pass = true;
@@ -2323,7 +2323,7 @@ angular
 							OpenWindow.document
 									.write('<script>var channels = "'
 											+ $scope.selectProvider
-											+ '";$.ajax({type: "POST",url: "/itcast_p2p_action/charges/charge", data: {"channel":"'
+											+ '";$.ajax({type: "POST",url: "/haiyang_p2p_action/charges/charge", data: {"channel":"'
 											+ $scope.selectProvider
 											+ '","chargeBank":"'
 											+ $scope.selectBankId
