@@ -1,0 +1,151 @@
+<div id="mainarea"> 
+  <!--loc-->
+  <div class="loc"> 债权管理 &gt; 录入债权 </div>
+  <!--loc end-->
+  <div class="container"> 
+    <!--area_block-->
+    <div class="area_block">
+    <form name="form" novalidate>
+
+      <div class="area_title"> <span class="ico ico-edit">&nbsp;</span>
+        <h3>录入债权</h3>
+      </div>
+      <div class="area_content area_table">
+        <table width="100%" class="table-edit">
+          <tbody>
+            <tr>
+              <td align="right"><label>借款ID（合同编号）： </label></td>
+              <td>
+                <input name="dContractNo" type="text" ng-disabled="changeState" id="dContractNo" style="width:235px;" ng-model="params.contractNo" required>
+              </td>
+
+              <td align="right">债务人：</td>
+              <td>
+                <input type="text" name="dDebtorsName" id="dDebtorsName" style="width:218px;" ng-model="params.debtorsName" required>
+              </td>
+            </tr>
+            <tr>
+              <td align="right"><label>身份证号： </label></td>
+              <td>
+                <input name="dDebtorsId" type="text" id="dDebtorsId" style="width:235px;" ng-model="params.debtorsId" required>
+              </td>
+              <td align="right">借款用途：</td>
+              <td>
+                <input type="text" name="dLoanPurpose" id="dLoanPurpose" style="width:218px;" ng-model="params.loanPurpose" required>
+              </td>
+            </tr>
+            <tr>
+              <td align="right"><label>借款类型： </label></td>
+              <td>
+                <input name="dLoanType" type="text" id="dLoanType" style="width:235px;" ng-model="params.loanType" required>
+              </td>
+              <td align="right">原始期限（月）：</td>
+              <td>
+                <input type="text" name="dLoanPeriod" id="dLoanPeriod" style="width:218px;" ng-model="params.loanPeriod" required>
+              </td>
+            </tr>
+            <tr>
+              <td align="right"><label>原始借款开始日期： </label></td>
+              <td>
+                <input name="dLoanStartDate" type="text" id="dLoanStartDate" style="width:235px;" ng-model="params.loanStartDate" datepicker readonly="true" required>
+              </td>
+              <td align="right">原始借款结束日期：</td>
+              <td>
+                <input type="text" name="dLoanEndDate" id="dLoanEndDate" style="width:218px;" ng-model="params.loanEndDate" datepicker readonly="true" required>
+              </td>
+            </tr>
+            <tr class="radio_input">
+              <td align="right">还款方式：</td>
+              <td colspan="3"><label>
+                  <input type="radio" name="dRepaymentStyle" value="11601" ng-model="params.repaymentStyle" checked="chedked">
+                  等额本息 </label>
+                <label>
+                  <input type="radio" name="dRepaymentStyle" value="11602" ng-model="params.repaymentStyle">
+                  按月付息到期还本</label>
+                <label>
+                  <input type="radio" name="dRepaymentStyle" value="11603" ng-model="params.repaymentStyle">
+                  到期一次性还款</label></td>
+            </tr>
+            <tr>
+              <td align="right"><label>还款日： </label></td>
+              <td>每月<select id="dRepaymenDates">
+                       <option value="" >-- 请选择 --</option>
+                       <option value="7" selected="selected">7</option>
+                       <option value="15" >15</option>
+                       <option value="23" >23</option>
+                       <option value="30" >30</option>
+                      </select>号
+              </td>
+              <td align="right">期供金额：</td>
+              <td>
+                <input type="text" name="dRepaymenMoney" id="dRepaymenMoney" style="width:218px;" ng-model="params.repaymenMoney">
+              </td>
+            </tr>
+            <tr>
+              <td align="right"><label>债权金额（元）： </label></td>
+              <td>
+                <input name="dDebtMoney" type="text" id="dDebtMoney" style="width:235px;" ng-model="params.debtMoney" required>
+              </td>
+              <td align="right">债权月利率（%）：</td>
+              <td>
+                <input type="text" name="dDebtMonthRate" id="dDebtMonthRate" style="width:218px;" ng-model="params.debtMonthRate" required>
+              </td>
+            </tr>
+            <tr>
+              <td align="right"><label>债权转入金额： </label></td>
+              <td>
+                <input name="dDebtTransferredMoney" type="text" id="dDebtTransferredMoney" style="width:235px;" ng-model="params.debtTransferredMoney" required>
+              </td>
+              <td align="right">债权可用期限（月）：</td>
+              <td>
+                <input type="text" name="dDebtTransferredPeriod" id="dDebtTransferredPeriod" style="width:218px;" ng-model="params.debtTransferredPeriod" required>
+              </td>
+            </tr>
+            <tr>
+              <td align="right"><label>债权转入日期： </label></td>
+              <td>
+                <input name="dDebtTransferredDate" type="text" ng-disabled="changeDate" id="dDebtTransferredDate" style="width:235px;" ng-model="params.debtTransferredDate" datepicker datestart="datestart" readonly="true" required>
+              </td>
+              <td align="right">债权转出日期：</td>
+              <td>
+                <input type="text" name="dDebtRansferOutDate" id="dDebtRansferOutDate" style="width:218px;" ng-model="params.debtRansferOutDate" datepicker dateend="dateend" readonly="true" required>
+              </td>
+            </tr>
+            <tr>
+              <td align="right"><label>债权人： </label></td>
+              <td colspan="3">
+                <input name="dCreditor" type="text" id="dCreditor" style="width:235px;" ng-model="params.creditor" required>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="area_foot tc">
+        <button type="button" class="button button-affirm" ng-click="entering()">&nbsp;提交&nbsp;</button>
+      </div>
+    </form>
+    </div>
+    <!--area_block end--> 
+  </div>
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
+        <h4 class="modal-title" id="exampleModalLabel"></h4>
+      </div>
+      <div class="modal-body">
+        <div style="margin:50px 40px;text-align:center;font-size:18px">
+          <ul ng-repeat="alertMsg in alertMsgs">
+              <li>{{alertMsg}}</li>
+          </ul>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">确认</button>
+      </div>
+    </div>
+  </div>
+</div>
