@@ -1,10 +1,6 @@
 package cn.haiyang.action.creditor;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.HashMap;
@@ -12,6 +8,7 @@ import java.util.List;
 
 import cn.haiyang.action.admin.BaseAction;
 import org.apache.log4j.Logger;
+import org.apache.poi.util.IOUtils;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.InterceptorRefs;
@@ -42,12 +39,11 @@ public class CreditorImportAction extends BaseAction {
 	 * 
 
 	 */
-	@Action(value = "download", results = { @Result(name = "success", type = "json") }, params = { "contentType",
-			"text/html" })
+	@Action("download")
 	public void download() {
 		FileInputStream inStream = null;
 		try {
-			String url = getRequest().getSession().getServletContext()
+			String url = this.getRequest().getSession().getServletContext()
 					.getRealPath("/WEB-INF/TemplateExcel/ClaimsBatchImportTemplate.xlsx");
 			inStream = new FileInputStream(url);
 			// 设置输出的格式
@@ -55,14 +51,20 @@ public class CreditorImportAction extends BaseAction {
 			getResponse().addHeader("content-type", "application/x-excel");
 			getResponse().addHeader("Content-Disposition", "attachment;filename="
 					+ new Date().toLocaleString() + ".xlsx");
-			// 循环取出流中的数据
-			byte[] b = new byte[1024];
-			int len;
-			while ((len = inStream.read(b)) > 0)
-				getResponse().getOutputStream().write(b, 0, len);
-			getResponse().getOutputStream().flush();
+
+			OutputStream os = this.getResponse().getOutputStream();
+			IOUtils.copy(inStream,os);
+
 		} catch (Exception e) {
 			logger.debug("债权导入错误");
+		}finally {
+			if(inStream != null){
+				try {
+					inStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 
 	}
