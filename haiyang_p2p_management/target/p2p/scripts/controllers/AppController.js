@@ -352,7 +352,7 @@ angular.module('AppController', [])
 								"#dDebtTransferredMoney").val(), debtTransferredPeriod = $(
 								"#dDebtTransferredPeriod").val();
 						if (!checkParamService.AuthIDcard(debtorsId)) {
-							msg.push("身份证号码格式不正确！");
+							msg.push("身份证号码格式不正确！");//弹框
 						}
 						if (loanPeriod < 0 || !loanPeriod
 								|| !loanPeriod.search(/\D/)) {
@@ -381,7 +381,7 @@ angular.module('AppController', [])
 						if (!$("#dRepaymenDates").val()) {
 							msg.push("还款日不可为空");
 						}
-
+						//alert($stateParams.dId);
 						if ($stateParams.dId) {
 							for (var i = 0; i < $scope.params.length - 2; i++) {
 								if (!$scope.params[i]) {
@@ -443,7 +443,7 @@ angular.module('AppController', [])
 				function($scope, AuthService, FileUploader, hmd) {
 					
 					var uploader = $scope.uploader = new FileUploader({
-						url : '/itcast_p2p_action/creditor/upload'
+						url : '/haiyang_p2p_action/creditor/upload'
 					});
 
 					uploader.filters
