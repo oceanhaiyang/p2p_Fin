@@ -7,6 +7,13 @@ import java.util.HashMap;
 import java.util.List;
 
 import cn.haiyang.action.admin.BaseAction;
+import cn.haiyang.dao.creditor.CreditorDao;
+import cn.haiyang.domain.creditor.CreditorModel;
+import cn.haiyang.utils.FrontStatusConstants;
+import cn.haiyang.utils.RandomNumberUtil;
+import cn.haiyang.utils.constant.ClaimsType;
+import cn.haiyang.utils.excelUtil.DataFormatUtilInterfaceImpl;
+import com.opensymphony.xwork2.ModelDriven;
 import org.apache.log4j.Logger;
 import org.apache.poi.util.IOUtils;
 import org.apache.struts2.convention.annotation.Action;
@@ -27,13 +34,41 @@ import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 @Scope("prototype")
 @Namespace("/creditor")
 @Controller
-public class CreditorImportAction extends BaseAction {
+public class CreditorImportAction extends BaseAction implements ModelDriven<CreditorModel>{
+
+	private CreditorModel creditor = new CreditorModel();
+	@Override
+	public CreditorModel getModel() {
+		return creditor;
+	}
 
 	private static Logger logger = Logger.getLogger(CreditorImportAction.class);
+	@Autowired
+	private CreditorDao creditorDao;
+
+    @Action("/addCreditor")
+	public void addCreditor(){
+		// 手动封装请求参数
+		creditor.setDebtNo("ZQNO" + RandomNumberUtil.randomNumber(new Date()));// 债权编号
+		creditor.setBorrowerId(1); // 借款人编号
+		creditor.setDebtStatus(ClaimsType.UNCHECKDE); // 债权状态 ----未审核
+		creditor.setMatchedStatus(ClaimsType.UNMATCH); // 匹配状态 ----未匹配
+		creditor.setDebtType(FrontStatusConstants.NULL_SELECT_OUTACCOUNT);// 标的类型
+		creditor.setAvailablePeriod(creditor.getDebtTransferredPeriod());// 可用期限
+		creditor.setAvailableMoney(creditor.getDebtTransferredMoney());// 可用金额
+		creditor.setDebtMonthRate(new DataFormatUtilInterfaceImpl().formatToDouble(creditor.getDebtMonthRate(), 12));
+//完成添加操作
+		creditorDao.save(creditor);
+		try {
+			this.getResponse().getWriter().write("{\"status\":\"1\"}");
+			return;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 
 
-
+	}
 	/**
 	 * 文件下载
 	 * 
@@ -68,5 +103,7 @@ public class CreditorImportAction extends BaseAction {
 		}
 
 	}
+
+
 
 }
