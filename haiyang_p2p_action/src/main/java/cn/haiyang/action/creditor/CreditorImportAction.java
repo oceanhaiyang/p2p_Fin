@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import cn.haiyang.action.admin.BaseAction;
-import cn.haiyang.dao.creditor.CreditorDao;
+import cn.haiyang.dao.creditor.ICreditorDAO;
 import cn.haiyang.domain.creditor.CreditorModel;
 import cn.haiyang.utils.FrontStatusConstants;
 import cn.haiyang.utils.RandomNumberUtil;
@@ -44,7 +44,7 @@ public class CreditorImportAction extends BaseAction implements ModelDriven<Cred
 
 	private static Logger logger = Logger.getLogger(CreditorImportAction.class);
 	@Autowired
-	private CreditorDao creditorDao;
+	private ICreditorDAO creditorDao;
 
     @Action("/addCreditor")
 	public void addCreditor(){
