@@ -37,4 +37,4 @@ redis.port=6379
 
 [百度一下](http://taobao.com)
 
-:+1;
+:+1:
